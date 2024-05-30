@@ -5,13 +5,13 @@
     <artifactId>RDTV</artifactId>
     <version>0.1</version>
     <packaging>war</packaging>
-    <name>RDTV-0.1</name>
-    
+    <name>RDTV</name>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jakartaee>10.0.0</jakartaee>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>jakarta.platform</groupId>
@@ -20,7 +20,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
