@@ -20,12 +20,12 @@ public class RdtvApplication {
 	//
 	//api
 	//
-	@RequestMapping(path = "/Upload", method=RequestMethod.POST)	
-	public ModelAndView UploadImages(@RequestBody ){
-		ModelAndView ret = new ModelAndView();
-		ret.setViewName("mainPage.html");
-		return ret;
-	}
+//	@RequestMapping(path = "/Upload", method=RequestMethod.POST)	
+//	public ModelAndView UploadImages(@RequestBody ){
+//		ModelAndView ret = new ModelAndView();
+//		ret.setViewName("mainPage.html");
+//		return ret;
+//	}
 	//
 	//end of api
 	//
