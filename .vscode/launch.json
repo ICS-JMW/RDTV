@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-RdtvApplication<rdtv>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "jmw.rdtv.RdtvApplication",
+            "projectName": "rdtv",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
