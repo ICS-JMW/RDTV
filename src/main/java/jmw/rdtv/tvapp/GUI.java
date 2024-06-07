@@ -19,17 +19,18 @@ import javax.swing.*;
  * @author hhwl
  */
 public class GUI extends javax.swing.JFrame {
-    
+
     private static int current = 0;
     private static int submissions = 2;
     private Timer timer = new Timer();
     public ArrayList<medium> media = new ArrayList();
+
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
-        
+
 //        String file;
 //        try{
 //            for( int i = 0; i < submissions; i++){
@@ -40,21 +41,20 @@ public class GUI extends javax.swing.JFrame {
 //        }catch (IOException e){
 //            System.out.println("IOException in Screen()");
 //        }
+        screen1.setBorder(BorderFactory.createLineBorder(Color.black));
 
-       screen1.setBorder(BorderFactory.createLineBorder(Color.black));
-       
-       timer.scheduleAtFixedRate(new TimerTask(){
-        @Override
-        public void run(){
-            select(current);
-        
-        current++;
-        if(current>=submissions){
-            current = 0;
-        }
-    }
-    },10*1000, 10*1000);
-       
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                select(current);
+
+                current++;
+                if (current >= submissions) {
+                    current = 0;
+                }
+            }
+        }, 10 * 1000, 10 * 1000);
+
     }
 
     /**
@@ -144,15 +144,8 @@ public class GUI extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUI().setVisible(true);
-            }
-        });
-        
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -167,8 +160,8 @@ public class GUI extends javax.swing.JFrame {
     public static int getSubmissions() {
         return submissions;
     }
-    
-    public void select(int i){
+
+    public void select(int i) {
         //screen1.setMedia(media.get(i).image);
         description.setText(media.get(i).getDescription());
         title.setText(media.get(i).getName());
