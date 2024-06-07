@@ -5,14 +5,13 @@
 package jmw.rdtv.tvapp;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.Timer;
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.io.File;
+import java.util.Scanner;
 
 /**
  *
@@ -21,7 +20,7 @@ import javax.swing.*;
 public class GUI extends javax.swing.JFrame {
     
     private static int current = 1;
-    private static int submissions = 2;
+    private static int submissions = 0;
     private Timer timer = new Timer();
     public ArrayList<medium> media = new ArrayList();
     /**
@@ -42,7 +41,7 @@ public class GUI extends javax.swing.JFrame {
 //        }
 
        screen1.setBorder(BorderFactory.createLineBorder(Color.black));
-       select(0);
+    //   select(0);
        
        timer.scheduleAtFixedRate(new TimerTask(){
         @Override
@@ -176,6 +175,28 @@ public class GUI extends javax.swing.JFrame {
     }
     
     public ArrayList<medium> readMedia(){
-        return null;
+        Scanner sc;
+        ArrayList<medium> mList = new ArrayList();
+        
+        try{
+           sc = new Scanner(new File("items.json"));
+           while(sc.hasNextLine() && !sc.nextLine().equals("}]")){
+               medium m = new medium();
+               m.setName(sc.nextLine());
+               m.setName(m.getName().substring(13,m.getName().length()-2));
+               m.setDescription(sc.nextLine());
+               m.setBegin(sc.nextLine());
+               m.setEnd(sc.nextLine());
+               m.setFileName(sc.nextLine());
+               mList.add(m);
+               submissions++;
+            }
+            System.out.println(mList);
+        }catch (IOException e){
+            System.out.println("broken");
+        }
+        
+        
+        return mList;
     }
 }
