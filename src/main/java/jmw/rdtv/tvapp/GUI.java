@@ -20,7 +20,7 @@ import javax.swing.*;
  */
 public class GUI extends javax.swing.JFrame {
     
-    private static int current = 0;
+    private static int current = 1;
     private static int submissions = 2;
     private Timer timer = new Timer();
     public ArrayList<medium> media = new ArrayList();
@@ -29,7 +29,7 @@ public class GUI extends javax.swing.JFrame {
      */
     public GUI() {
         initComponents();
-        
+        media = readMedia();
 //        String file;
 //        try{
 //            for( int i = 0; i < submissions; i++){
@@ -42,12 +42,12 @@ public class GUI extends javax.swing.JFrame {
 //        }
 
        screen1.setBorder(BorderFactory.createLineBorder(Color.black));
+       select(0);
        
        timer.scheduleAtFixedRate(new TimerTask(){
         @Override
         public void run(){
             select(current);
-        
         current++;
         if(current>=submissions){
             current = 0;
@@ -173,5 +173,9 @@ public class GUI extends javax.swing.JFrame {
         description.setText(media.get(i).getDescription());
         title.setText(media.get(i).getName());
         screen1.repaint();
+    }
+    
+    public ArrayList<medium> readMedia(){
+        return null;
     }
 }
