@@ -18,7 +18,7 @@ public class RdtvApplication {
 
         System.setProperty("java.awt.headless", "false");
         try {
-            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLaf");
+            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(RdtvApplication.class.getName()).log(Level.SEVERE, null, ex);
         }
