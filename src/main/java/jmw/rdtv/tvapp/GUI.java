@@ -12,6 +12,8 @@ import java.util.Timer;
 import javax.swing.*;
 import java.io.File;
 import java.util.Scanner;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -23,6 +25,9 @@ public class GUI extends javax.swing.JFrame {
     private static int submissions = 0;
     private Timer timer = new Timer();
     public ArrayList<medium> media = new ArrayList();
+    private ArrayList<BufferedImage> images = new ArrayList();
+    private int runtime = 2*1000;
+
     /**
      * Creates new form GUI
      */
@@ -39,21 +44,24 @@ public class GUI extends javax.swing.JFrame {
 //        }catch (IOException e){
 //            System.out.println("IOException in Screen()");
 //        }
+        screen1.setBorder(BorderFactory.createLineBorder(Color.black));
 
-       screen1.setBorder(BorderFactory.createLineBorder(Color.black));
-    //   select(0);
+       //select(0);
        
-       timer.scheduleAtFixedRate(new TimerTask(){
+       timer.schedule(new TimerTask(){
         @Override
         public void run(){
             select(current);
+            System.out.println(media.get(current).getFileName());
         current++;
         if(current>=submissions){
             current = 0;
         }
+      runtime+=1000;
+            System.out.println(runtime);
     }
-    },10*1000, 10*1000);
-       
+    }0,runtime);
+       jLabel1.setText("hello");
     }
 
     /**
@@ -67,21 +75,30 @@ public class GUI extends javax.swing.JFrame {
 
         description = new javax.swing.JLabel();
         screen1 = new jmw.rdtv.tvapp.Screen();
+        jLabel1 = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         description.setText("desc");
 
+        jLabel1.setText("jLabel1");
+
         javax.swing.GroupLayout screen1Layout = new javax.swing.GroupLayout(screen1);
         screen1.setLayout(screen1Layout);
         screen1Layout.setHorizontalGroup(
             screen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 325, Short.MAX_VALUE)
+            .addGroup(screen1Layout.createSequentialGroup()
+                .addGap(125, 125, 125)
+                .addComponent(jLabel1)
+                .addContainerGap(163, Short.MAX_VALUE))
         );
         screen1Layout.setVerticalGroup(
             screen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, screen1Layout.createSequentialGroup()
+                .addContainerGap(155, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(30, 30, 30))
         );
 
         title.setText("Title");
@@ -143,19 +160,13 @@ public class GUI extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUI().setVisible(true);
-            }
-        });
-        
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel description;
+    private javax.swing.JLabel jLabel1;
     private jmw.rdtv.tvapp.Screen screen1;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
@@ -166,11 +177,13 @@ public class GUI extends javax.swing.JFrame {
     public static int getSubmissions() {
         return submissions;
     }
-    
-    public void select(int i){
+
+    public void select(int i) {
         //screen1.setMedia(media.get(i).image);
+        
         description.setText(media.get(i).getDescription());
         title.setText(media.get(i).getName());
+        screen1.setMedia(images.get(current));
         screen1.repaint();
     }
     
@@ -185,9 +198,12 @@ public class GUI extends javax.swing.JFrame {
                m.setName(sc.nextLine());
                m.setName(m.getName().substring(13,m.getName().length()-2));
                m.setDescription(sc.nextLine());
+               m.setDescription(m.getDescription().substring(20,m.getDescription().length()-2));
                m.setBegin(sc.nextLine());
                m.setEnd(sc.nextLine());
                m.setFileName(sc.nextLine());
+               m.setFileName(m.getFileName().substring(17,m.getFileName().length()-1));
+               images.add(ImageIO.read(new File("media/"+m.getFileName())));
                mList.add(m);
                submissions++;
             }

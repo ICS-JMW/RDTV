@@ -8,7 +8,7 @@
             <packaging>ejb</packaging>
         </packagings>
         <goals>
-            <goal>package</goal>
+            <goal>spring-boot:run</goal>
         </goals>
     </action>
     <action>
