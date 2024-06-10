@@ -1,5 +1,4 @@
 package jmw.rdtv.Medium;
 
-public class Image {
-    
+public class Event {
 }

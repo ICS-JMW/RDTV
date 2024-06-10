@@ -4,9 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import jmw.rdtv.Medium.Event;
+import jmw.rdtv.Medium.Image;
+import jmw.rdtv.Medium.Video;
 
 
 @SpringBootApplication
@@ -20,11 +24,22 @@ public class RdtvApplication {
 	//
 	//api
 	//
-	@RequestMapping(path = "/Upload", method=RequestMethod.POST)	
-	public ModelAndView UploadImages(@RequestBody ){
-		ModelAndView ret = new ModelAndView();
-		ret.setViewName("mainPage.html");
-		return ret;
+	@RequestMapping(path = "/Upload", method=RequestMethod.PUT)	
+	public boolean UploadImages(@RequestParam("data") Image image){
+		
+		return true;
+	}
+	@RequestMapping(path = "/Event", method=RequestMethod.PUT)	
+	public boolean AddEvent(@RequestParam("data") Event event){
+		return true;
+	}
+	@RequestMapping(path = "/Video", method=RequestMethod.PUT)	
+	public boolean UploadVideo(@RequestParam("data") Video video){
+		return true;
+	}
+	@RequestMapping(path = "/Admin", method=RequestMethod.POST)
+	public boolean ModifyThing(){
+		return true;
 	}
 	//
 	//end of api

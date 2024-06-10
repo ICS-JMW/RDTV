@@ -2,7 +2,7 @@ package jmw.rdtv.Medium;
 
 import java.awt.Graphics;
 
-public abstract class medium {
+public abstract class Medium {
     String Name;
     String Description;
     String Begin;
