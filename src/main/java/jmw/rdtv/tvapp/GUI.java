@@ -5,10 +5,11 @@
 package jmw.rdtv.tvapp;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.TimerTask;
-import java.util.Timer;
+import javax.swing.Timer;
 import javax.swing.*;
 import java.io.File;
 import java.util.Scanner;
@@ -23,37 +24,13 @@ public final class GUI extends javax.swing.JFrame {
 
     private static int current = 1;
     private static int submissions = 0;
-    private Timer timer = new Timer();
-    public ArrayList<medium> media = new ArrayList();
+    public static ArrayList<medium> media = new ArrayList();
     private ArrayList<BufferedImage> images = new ArrayList();
     private int msPassed = 0;
-    private TimerTask seconds = new TimerTask() {
-        @Override
-        public void run() {
-            msPassed += 100;
-            System.out.println(msPassed);
-            if (msPassed >= media.get(current).getRuntime()) {
-                current++;
-                if (current >= submissions) {
-                    current = 0;
-                }
-                select(current);
-                msPassed = 0;
-            }
-        }
-    };
+    private Timer timer;
+    private ActionListener  display;
+    private int runtime = 300;
 
-    private TimerTask display = new TimerTask() {
-        @Override
-        public void run() {
-            select(current);
-            System.out.println(media.get(current).getFileName());
-            current++;
-            if (current >= submissions) {
-                current = 0;
-            }
-        }
-    };
 
     /**
      * Creates new form GUI
@@ -74,10 +51,24 @@ public final class GUI extends javax.swing.JFrame {
         screen1.setBorder(BorderFactory.createLineBorder(Color.black));
 
         select(0);
-        timer.schedule(seconds, 0, 100);
 
         //timer.schedule(display,runtime);
         jLabel1.setText("hello");
+        display = new ActionListener() {
+        public void actionPerformed(ActionEvent evnt) {
+            current++;
+                if (current >= submissions) {
+                    current = 0;
+                }
+                select(current);
+                System.out.println(media.get(current).getRuntime());
+                timer.setDelay(media.get(current).getRuntime());
+        }
+        };
+        
+        timer = new Timer(media.get(current).getRuntime(),display);
+        timer.setRepeats(true);
+        timer.start();
     }
 
     /**
@@ -176,7 +167,10 @@ public final class GUI extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        
+         
+        
+    
         /* Create and display the form */
     }
 
@@ -220,12 +214,12 @@ public final class GUI extends javax.swing.JFrame {
                 m.setFileName(sc.nextLine());
                 m.setFileName(m.getFileName().substring(17, m.getFileName().length() - 1));
                 images.add(ImageIO.read(new File("media/" + m.getFileName())));
-                m.setRuntime(3000);
+                m.setRuntime(runtime);
+                runtime+=3000;
                 mList.add(m);
 
                 submissions++;
             }
-            System.out.println(mList);
         } catch (IOException e) {
             System.out.println("broken");
         }
