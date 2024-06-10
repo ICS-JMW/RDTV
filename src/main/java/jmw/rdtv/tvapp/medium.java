@@ -5,6 +5,12 @@ import java.awt.image.BufferedImage;
 
 public class medium {
 
+    private String Name;
+    private String Description;
+    private String Begin;
+    private String End;
+    private String FileName;
+    private int runtime;
     /**
      * @return the FileName
      */
@@ -74,13 +80,21 @@ public class medium {
     public void setEnd(String End) {
         this.End = End;
     }
-    
-    private String Name;
-    private String Description;
-    private String Begin;
-    private String End;
-    private String FileName;
   
     public void draw(Graphics g){}
+
+    /**
+     * @return the runtime
+     */
+    public int getRuntime() {
+        return runtime;
+    }
+
+    /**
+     * @param runtime the runtime to set
+     */
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
     
 }

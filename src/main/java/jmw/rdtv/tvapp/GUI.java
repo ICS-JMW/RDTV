@@ -19,14 +19,41 @@ import javax.imageio.ImageIO;
  *
  * @author hhwl
  */
-public class GUI extends javax.swing.JFrame {
-    
+public final class GUI extends javax.swing.JFrame {
+
     private static int current = 1;
     private static int submissions = 0;
     private Timer timer = new Timer();
     public ArrayList<medium> media = new ArrayList();
     private ArrayList<BufferedImage> images = new ArrayList();
-    private int runtime = 2*1000;
+    private int msPassed = 0;
+    private TimerTask seconds = new TimerTask() {
+        @Override
+        public void run() {
+            msPassed += 100;
+            System.out.println(msPassed);
+            if (msPassed >= media.get(current).getRuntime()) {
+                current++;
+                if (current >= submissions) {
+                    current = 0;
+                }
+                select(current);
+                msPassed = 0;
+            }
+        }
+    };
+
+    private TimerTask display = new TimerTask() {
+        @Override
+        public void run() {
+            select(current);
+            System.out.println(media.get(current).getFileName());
+            current++;
+            if (current >= submissions) {
+                current = 0;
+            }
+        }
+    };
 
     /**
      * Creates new form GUI
@@ -46,22 +73,11 @@ public class GUI extends javax.swing.JFrame {
 //        }
         screen1.setBorder(BorderFactory.createLineBorder(Color.black));
 
-       //select(0);
-       
-       timer.schedule(new TimerTask(){
-        @Override
-        public void run(){
-            select(current);
-            System.out.println(media.get(current).getFileName());
-        current++;
-        if(current>=submissions){
-            current = 0;
-        }
-      runtime+=1000;
-            System.out.println(runtime);
-    }
-    }0,runtime);
-       jLabel1.setText("hello");
+        select(0);
+        timer.schedule(seconds, 0, 100);
+
+        //timer.schedule(display,runtime);
+        jLabel1.setText("hello");
     }
 
     /**
@@ -180,39 +196,40 @@ public class GUI extends javax.swing.JFrame {
 
     public void select(int i) {
         //screen1.setMedia(media.get(i).image);
-        
+
         description.setText(media.get(i).getDescription());
         title.setText(media.get(i).getName());
         screen1.setMedia(images.get(current));
         screen1.repaint();
     }
-    
-    public ArrayList<medium> readMedia(){
+
+    public ArrayList<medium> readMedia() {
         Scanner sc;
         ArrayList<medium> mList = new ArrayList();
-        
-        try{
-           sc = new Scanner(new File("items.json"));
-           while(sc.hasNextLine() && !sc.nextLine().equals("}]")){
-               medium m = new medium();
-               m.setName(sc.nextLine());
-               m.setName(m.getName().substring(13,m.getName().length()-2));
-               m.setDescription(sc.nextLine());
-               m.setDescription(m.getDescription().substring(20,m.getDescription().length()-2));
-               m.setBegin(sc.nextLine());
-               m.setEnd(sc.nextLine());
-               m.setFileName(sc.nextLine());
-               m.setFileName(m.getFileName().substring(17,m.getFileName().length()-1));
-               images.add(ImageIO.read(new File("media/"+m.getFileName())));
-               mList.add(m);
-               submissions++;
+
+        try {
+            sc = new Scanner(new File("items.json"));
+            while (sc.hasNextLine() && !sc.nextLine().equals("}]")) {
+                medium m = new medium();
+                m.setName(sc.nextLine());
+                m.setName(m.getName().substring(13, m.getName().length() - 2));
+                m.setDescription(sc.nextLine());
+                m.setDescription(m.getDescription().substring(20, m.getDescription().length() - 2));
+                m.setBegin(sc.nextLine());
+                m.setEnd(sc.nextLine());
+                m.setFileName(sc.nextLine());
+                m.setFileName(m.getFileName().substring(17, m.getFileName().length() - 1));
+                images.add(ImageIO.read(new File("media/" + m.getFileName())));
+                m.setRuntime(3000);
+                mList.add(m);
+
+                submissions++;
             }
             System.out.println(mList);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("broken");
         }
-        
-        
+
         return mList;
     }
 }
