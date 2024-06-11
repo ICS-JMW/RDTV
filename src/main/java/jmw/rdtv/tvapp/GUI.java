@@ -5,14 +5,18 @@
 package jmw.rdtv.tvapp;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.TimerTask;
-import java.util.Timer;
-import javax.imageio.ImageIO;
+import javax.swing.Timer;
 import javax.swing.*;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+import java.io.File;
+import java.util.Scanner;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
@@ -20,7 +24,16 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
  *
  * @author hhwl
  */
-public class GUI extends javax.swing.JFrame {
+public final class GUI extends javax.swing.JFrame {
+
+    private static int current = 1;
+    private static int submissions = 0;
+    public static ArrayList<medium> media = new ArrayList();
+    private ArrayList<BufferedImage> images = new ArrayList();
+    private int msPassed = 0;
+    private Timer timer;
+    private ActionListener  display;
+    private int runtime = 300;
 
     private static int current = 0;
     private static int submissions = 2;
@@ -47,30 +60,37 @@ public class GUI extends javax.swing.JFrame {
         Texts texts = new Texts();
         texts.setAlwaysOnTop(true);
 
-        //////////////////////////////////
-        String file;
-        try {
-            for (int i = 0; i < submissions; i++) {
-                file = "image" + i + ".png";
-                System.out.println(file);
-                images.add(ImageIO.read(new File(file)));
-            }
-        } catch (IOException e) {
-            System.out.println("IOException in Screen()");
-        }
+        media = readMedia();
+//        String file;
+//        try{
+//            for( int i = 0; i < submissions; i++){
+//            file = "image" + i + ".png";
+//                System.out.println(file);
+//            images.add(ImageIO.read(new File(file)));
+//            }
+//        }catch (IOException e){
+//            System.out.println("IOException in Screen()");
+//        }
         screen1.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                select(current);
+        select(0);
 
-                current++;
+        //timer.schedule(display,runtime);
+        jLabel1.setText("hello");
+        display = new ActionListener() {
+        public void actionPerformed(ActionEvent evnt) {
+            current++;
                 if (current >= submissions) {
                     current = 0;
                 }
-            }
-        }, 10 * 1000, 10 * 1000);
+                select(current);
+                System.out.println(media.get(current).getRuntime());
+                timer.setDelay(media.get(current).getRuntime());
+        }
+        };
+                timer = new Timer(media.get(current).getRuntime(),display);
+        timer.setRepeats(true);
+        timer.start();
     }
 
     /**
@@ -127,7 +147,10 @@ public class GUI extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        
+         
+        
+    
         /* Create and display the form */
     }
 
@@ -142,8 +165,40 @@ public class GUI extends javax.swing.JFrame {
 
 //    public void select(int i) {
 //        //screen1.setMedia(media.get(i).image);
-//        description.setText(media.get(i).getDescription());
+//
+        description.setText(media.get(i).getDescription());
 //        title.setText(media.get(i).getName());
-//        screen1.repaint();
+//        screen1.setMedia(images.get(current));
+        screen1.repaint();
 //    }
+
+    public ArrayList<medium> readMedia() {
+        Scanner sc;
+        ArrayList<medium> mList = new ArrayList();
+
+        try {
+            sc = new Scanner(new File("items.json"));
+            while (sc.hasNextLine() && !sc.nextLine().equals("}]")) {
+                medium m = new medium();
+                m.setName(sc.nextLine());
+                m.setName(m.getName().substring(13, m.getName().length() - 2));
+                m.setDescription(sc.nextLine());
+                m.setDescription(m.getDescription().substring(20, m.getDescription().length() - 2));
+                m.setBegin(sc.nextLine());
+                m.setEnd(sc.nextLine());
+                m.setFileName(sc.nextLine());
+                m.setFileName(m.getFileName().substring(17, m.getFileName().length() - 1));
+                images.add(ImageIO.read(new File("media/" + m.getFileName())));
+                m.setRuntime(runtime);
+                runtime+=3000;
+                mList.add(m);
+
+                submissions++;
+            }
+        } catch (IOException e) {
+            System.out.println("broken");
+        }
+
+        return mList;
+    }
 }

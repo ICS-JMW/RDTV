@@ -3,7 +3,27 @@ package jmw.rdtv.tvapp;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public abstract class medium {
+public class medium {
+
+    private String Name;
+    private String Description;
+    private String Begin;
+    private String End;
+    private String FileName;
+    private int runtime;
+    /**
+     * @return the FileName
+     */
+    public String getFileName() {
+        return FileName;
+    }
+
+    /**
+     * @param FileName the FileName to set
+     */
+    public void setFileName(String FileName) {
+        this.FileName = FileName;
+    }
 
     /**
      * @return the Name
@@ -60,12 +80,21 @@ public abstract class medium {
     public void setEnd(String End) {
         this.End = End;
     }
-    
-    private String Name;
-    private String Description;
-    private String Begin;
-    private String End;
   
     public void draw(Graphics g){}
+
+    /**
+     * @return the runtime
+     */
+    public int getRuntime() {
+        return runtime;
+    }
+
+    /**
+     * @param runtime the runtime to set
+     */
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
     
 }
