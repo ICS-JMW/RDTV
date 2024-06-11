@@ -4,8 +4,10 @@
  */
 package jmw.rdtv.tvapp;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.*;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,34 +19,23 @@ import javax.imageio.ImageIO;
  *
  * @author tangm
  */
-public class Screen extends javax.swing.JPanel {
-    
+public class Screen extends EmbeddedMediaPlayerComponent {
+
     private Timer timer = new Timer();
     private BufferedImage image = null;
     private int current = 0;
-    
-    
+
     /**
      * Creates new form Screen
      */
     public Screen() {
-        initComponents();
-
-        
-        
+        super();
     }
 
-    @Override
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-            g.drawImage(image,0,0, this);
-            //g.drawOval(50,50,50,50);
+    public void setMedia(BufferedImage i) {
+        image = i;
     }
-    
- public void setMedia( BufferedImage i){
-     image = i;
- }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,18 +45,19 @@ public class Screen extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setMinimumSize(new java.awt.Dimension(1920, 1080));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 1920, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 1080, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

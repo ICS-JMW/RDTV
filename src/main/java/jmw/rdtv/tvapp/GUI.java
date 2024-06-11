@@ -13,6 +13,8 @@ import java.util.TimerTask;
 import java.util.Timer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 /**
  *
@@ -23,24 +25,39 @@ public class GUI extends javax.swing.JFrame {
     private static int current = 0;
     private static int submissions = 2;
     private Timer timer = new Timer();
-    public ArrayList<medium> media = new ArrayList();
+
+    private ArrayList<medium> media = new ArrayList();
+    private Screen vlcj = new Screen();
+    int realWidth = 1920;
+    int realHeight = 1080;
 
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        add(vlcj);
+        setVisible(true);
+        vlcj.mediaPlayer().media().play("./b-roll.mp4");
+        vlcj.mediaPlayer().controls().setRepeat(true);
 
-//        String file;
-//        try{
-//            for( int i = 0; i < submissions; i++){
-//            file = "image" + i + ".png";
-//                System.out.println(file);
-//            images.add(ImageIO.read(new File(file)));
-//            }
-//        }catch (IOException e){
-//            System.out.println("IOException in Screen()");
-//        }
+        realWidth = getWidth();
+        realHeight = getHeight();
+        Texts texts = new Texts();
+        texts.setAlwaysOnTop(true);
+
+        //////////////////////////////////
+        String file;
+        try {
+            for (int i = 0; i < submissions; i++) {
+                file = "image" + i + ".png";
+                System.out.println(file);
+                images.add(ImageIO.read(new File(file)));
+            }
+        } catch (IOException e) {
+            System.out.println("IOException in Screen()");
+        }
         screen1.setBorder(BorderFactory.createLineBorder(Color.black));
 
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -54,7 +71,6 @@ public class GUI extends javax.swing.JFrame {
                 }
             }
         }, 10 * 1000, 10 * 1000);
-
     }
 
     /**
@@ -66,56 +82,23 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        description = new javax.swing.JLabel();
-        screen1 = new jmw.rdtv.tvapp.Screen();
-        title = new javax.swing.JLabel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        description.setText("desc");
-
-        javax.swing.GroupLayout screen1Layout = new javax.swing.GroupLayout(screen1);
-        screen1.setLayout(screen1Layout);
-        screen1Layout.setHorizontalGroup(
-            screen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 325, Short.MAX_VALUE)
-        );
-        screen1Layout.setVerticalGroup(
-            screen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
-        );
-
-        title.setText("Title");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(screen1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(title)
-                .addGap(179, 179, 179))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(title)
-                .addGap(18, 18, 18)
-                .addComponent(screen1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(description, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        setMinimumSize(new java.awt.Dimension(1920, 1080));
+        setPreferredSize(new java.awt.Dimension(1920, 1080));
+        setSize(new java.awt.Dimension(1920, 1080));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        vlcj.release();
+        System.exit(0);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -149,11 +132,7 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel description;
-    private jmw.rdtv.tvapp.Screen screen1;
-    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
-
     /**
      * @return the submissions
      */
@@ -161,10 +140,10 @@ public class GUI extends javax.swing.JFrame {
         return submissions;
     }
 
-    public void select(int i) {
-        //screen1.setMedia(media.get(i).image);
-        description.setText(media.get(i).getDescription());
-        title.setText(media.get(i).getName());
-        screen1.repaint();
-    }
+//    public void select(int i) {
+//        //screen1.setMedia(media.get(i).image);
+//        description.setText(media.get(i).getDescription());
+//        title.setText(media.get(i).getName());
+//        screen1.repaint();
+//    }
 }
