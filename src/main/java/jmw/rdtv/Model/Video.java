@@ -1,5 +1,5 @@
 package jmw.rdtv.Model;
 
-public class image {
+public class Video {
     
 }

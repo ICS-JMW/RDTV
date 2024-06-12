@@ -4,21 +4,14 @@
  */
 package jmw.rdtv.tvapp;
 
+import jmw.rdtv.Model.Submission;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import javax.swing.Timer;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
-import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
-import java.io.File;
-import java.util.Scanner;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+import java.awt.image.*;
+import javax.imageio.*;
 
 /**
  *
@@ -28,18 +21,13 @@ public final class GUI extends javax.swing.JFrame {
 
     private static int current = 1;
     private static int submissions = 0;
-    public static ArrayList<medium> media = new ArrayList();
+    public static ArrayList<Submission> media = new ArrayList();
     private ArrayList<BufferedImage> images = new ArrayList();
     private int msPassed = 0;
-    private Timer timer;
-    private ActionListener  display;
+//    private Timer timer;
+    private ActionListener display;
     private int runtime = 300;
 
-    private static int current = 0;
-    private static int submissions = 2;
-    private Timer timer = new Timer();
-
-    private ArrayList<medium> media = new ArrayList();
     private Screen vlcj = new Screen();
     int realWidth = 1920;
     int realHeight = 1080;
@@ -48,8 +36,10 @@ public final class GUI extends javax.swing.JFrame {
      * Creates new form GUI
      */
     public GUI() {
-        initComponents();
+        initComponents(); // auto create components
+        // maximize window
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // set up vlcj
         add(vlcj);
         setVisible(true);
         vlcj.mediaPlayer().media().play("./b-roll.mp4");
@@ -59,38 +49,26 @@ public final class GUI extends javax.swing.JFrame {
         realHeight = getHeight();
         Texts texts = new Texts();
         texts.setAlwaysOnTop(true);
+        texts.setLocation(realWidth - 1000, realHeight-200);
 
-        media = readMedia();
-//        String file;
-//        try{
-//            for( int i = 0; i < submissions; i++){
-//            file = "image" + i + ".png";
-//                System.out.println(file);
-//            images.add(ImageIO.read(new File(file)));
+        MediaPopup popup = new MediaPopup();
+        popup.setAlwaysOnTop(true);
+
+//        media = readMedia();
+//        display = new ActionListener() {
+//            public void actionPerformed(ActionEvent evnt) {
+//                current++;
+//                if (current >= submissions) {
+//                    current = 0;
+//                }
+//                select(current);
+//                System.out.println(media.get(current).getRuntime());
+//                timer.setDelay(media.get(current).getRuntime());
 //            }
-//        }catch (IOException e){
-//            System.out.println("IOException in Screen()");
-//        }
-        screen1.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        select(0);
-
-        //timer.schedule(display,runtime);
-        jLabel1.setText("hello");
-        display = new ActionListener() {
-        public void actionPerformed(ActionEvent evnt) {
-            current++;
-                if (current >= submissions) {
-                    current = 0;
-                }
-                select(current);
-                System.out.println(media.get(current).getRuntime());
-                timer.setDelay(media.get(current).getRuntime());
-        }
-        };
-                timer = new Timer(media.get(current).getRuntime(),display);
-        timer.setRepeats(true);
-        timer.start();
+//        };
+//        timer = new Timer(media.get(current).getRuntime(), display);
+//        timer.setRepeats(true);
+//        timer.start();
     }
 
     /**
@@ -103,6 +81,7 @@ public final class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RDTV Official");
         setMinimumSize(new java.awt.Dimension(1920, 1080));
         setPreferredSize(new java.awt.Dimension(1920, 1080));
         setSize(new java.awt.Dimension(1920, 1080));
@@ -119,41 +98,6 @@ public final class GUI extends javax.swing.JFrame {
         vlcj.release();
         System.exit(0);
     }//GEN-LAST:event_formWindowClosing
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        
-         
-        
-    
-        /* Create and display the form */
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     /**
@@ -163,42 +107,33 @@ public final class GUI extends javax.swing.JFrame {
         return submissions;
     }
 
-//    public void select(int i) {
-//        //screen1.setMedia(media.get(i).image);
+//    public ArrayList<Submission> readMedia() {
+//        Scanner sc;
+//        ArrayList<Submission> mList = new ArrayList();
 //
-        description.setText(media.get(i).getDescription());
-//        title.setText(media.get(i).getName());
-//        screen1.setMedia(images.get(current));
-        screen1.repaint();
+//        try {
+//            sc = new Scanner(new File("items.json"));
+//            while (sc.hasNextLine() && !sc.nextLine().equals("}]")) {
+//                Submission m = new Submission();
+//                m.setName(sc.nextLine());
+//                m.setName(m.getName().substring(13, m.getName().length() - 2));
+//                m.setDescription(sc.nextLine());
+//                m.setDescription(m.getDescription().substring(20, m.getDescription().length() - 2));
+//                m.setBegin(sc.nextLine());
+//                m.setEnd(sc.nextLine());
+//                m.setFileName(sc.nextLine());
+//                m.setFileName(m.getFileName().substring(17, m.getFileName().length() - 1));
+//                images.add(ImageIO.read(new File("media/" + m.getFileName())));
+//                m.setPriority(runtime);
+//                runtime += 3000;
+//                mList.add(m);
+//
+//                submissions++;
+//            }
+//        } catch (IOException e) {
+//            System.out.println("broken");
+//        }
+//
+//        return mList;
 //    }
-
-    public ArrayList<medium> readMedia() {
-        Scanner sc;
-        ArrayList<medium> mList = new ArrayList();
-
-        try {
-            sc = new Scanner(new File("items.json"));
-            while (sc.hasNextLine() && !sc.nextLine().equals("}]")) {
-                medium m = new medium();
-                m.setName(sc.nextLine());
-                m.setName(m.getName().substring(13, m.getName().length() - 2));
-                m.setDescription(sc.nextLine());
-                m.setDescription(m.getDescription().substring(20, m.getDescription().length() - 2));
-                m.setBegin(sc.nextLine());
-                m.setEnd(sc.nextLine());
-                m.setFileName(sc.nextLine());
-                m.setFileName(m.getFileName().substring(17, m.getFileName().length() - 1));
-                images.add(ImageIO.read(new File("media/" + m.getFileName())));
-                m.setRuntime(runtime);
-                runtime+=3000;
-                mList.add(m);
-
-                submissions++;
-            }
-        } catch (IOException e) {
-            System.out.println("broken");
-        }
-
-        return mList;
-    }
 }
