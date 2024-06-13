@@ -20,6 +20,10 @@ public final class GUI extends javax.swing.JFrame {
 
     private static int current = 1;
     private static int submissions = 0;
+
+    /**
+     *
+     */
     public static ArrayList<Submission> media = new ArrayList();
     private ArrayList<BufferedImage> images = new ArrayList();
     private int msPassed = 0;

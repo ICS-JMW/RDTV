@@ -35,6 +35,10 @@ public class TextsPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     *
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

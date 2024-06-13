@@ -27,12 +27,20 @@ import jmw.rdtv.Medium.EventMedium;
 import jmw.rdtv.Medium.ImageMedium;
 import jmw.rdtv.Medium.Medium;
 
+/**
+ *
+ * @author hhwl
+ */
 @SpringBootApplication
 @RestController
 public class RdtvApplication {
 
     private static final String STORAGE_LOCATION = "src/main/resources";
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         SpringApplication.run(RdtvApplication.class, args);
@@ -88,6 +96,12 @@ public class RdtvApplication {
         return generateMediaCard(media, model, file);
     }
 
+    /**
+     *
+     * @param event
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/event", method = RequestMethod.POST)
     public ModelAndView addEvent(@ModelAttribute EventMedium event, Model model) {
         File eventLog = new File(STORAGE_LOCATION + "/storage/events.bf");
@@ -101,6 +115,10 @@ public class RdtvApplication {
         return eventPage(model);
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(path = "/admin", method = RequestMethod.POST)
     public boolean modifyThing() {
         return true;
@@ -122,6 +140,10 @@ public class RdtvApplication {
     //
     //get function
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView homePage() {
         ModelAndView ret = new ModelAndView();
@@ -129,6 +151,10 @@ public class RdtvApplication {
         return ret;
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(path = "/admin", method = RequestMethod.GET)
     public ModelAndView adminPage() {
         ModelAndView ret = new ModelAndView();
@@ -136,6 +162,10 @@ public class RdtvApplication {
         return ret;
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(path = "/admin/events", method = RequestMethod.GET)
     public ModelAndView adminEventView() {
         ModelAndView ret = new ModelAndView();
@@ -143,6 +173,10 @@ public class RdtvApplication {
         return ret;
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(path = "/admin/media", method = RequestMethod.GET)
     public ModelAndView adminMediaView() {
         ModelAndView ret = new ModelAndView();
@@ -150,6 +184,11 @@ public class RdtvApplication {
         return ret;
     }
 
+    /**
+     *
+     * @param image
+     * @return
+     */
     public ImageMedium parseImage(String image) {
         ImageMedium imageMedium = new ImageMedium();
         String[] seperated = new String[6];
@@ -162,6 +201,13 @@ public class RdtvApplication {
         return imageMedium;
     }
 
+    /**
+     *
+     * @param image
+     * @param model
+     * @param media
+     * @return
+     */
     public ModelAndView generateMediaCard(ImageMedium image, Model model, MultipartFile media) {
         model.addAttribute("image", image);
         model.addAttribute("media", media);
@@ -169,6 +215,11 @@ public class RdtvApplication {
         return card;
     }
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/event", method = RequestMethod.GET)
     public ModelAndView eventPage(Model model) {
         model.addAttribute("event", new EventMedium());
@@ -177,6 +228,11 @@ public class RdtvApplication {
         return ret;
     }
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/upload", method = RequestMethod.GET)
     public ModelAndView uploadPage(Model model) {
         model.addAttribute("image", new ImageMedium());

@@ -24,6 +24,10 @@ public class Texts extends javax.swing.JFrame {
         initComponents();
     }
 
+    /**
+     *
+     * @param event
+     */
     public void present(Submission event) {
 
     }
