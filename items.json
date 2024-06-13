@@ -1,2 +1,13 @@
-{
-}
+[{
+    "Name": "event1",
+    "Description": "test1",
+    "Begin": "",
+    "End": ",",
+    "FileName": "image1.png"
+},{
+    "Name": "event2",
+    "Description": "test2",
+    "Begin": "",
+    "End": "",
+    "FileName": "images.png"
+}]

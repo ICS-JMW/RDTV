@@ -1,60 +1,74 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package jmw.rdtv.tvapp;
 
+import jmw.rdtv.Model.Submission;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.TimerTask;
-import java.util.Timer;
-import javax.imageio.ImageIO;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
+import java.awt.image.*;
+import javax.imageio.*;
+import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 /**
  *
  * @author hhwl
  */
-public class GUI extends javax.swing.JFrame {
+public final class GUI extends javax.swing.JFrame {
 
-    private static int current = 0;
-    private static int submissions = 2;
-    private Timer timer = new Timer();
-    public ArrayList<medium> media = new ArrayList();
+    private static int current = 1;
+    private static int submissions = 0;
+    public static ArrayList<Submission> media = new ArrayList();
+    private ArrayList<BufferedImage> images = new ArrayList();
+    private int msPassed = 0;
+//    private Timer timer;
+    private ActionListener display;
+    private int runtime = 300;
+
+    private EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
+    int realWidth = 1920;
+    int realHeight = 1080;
 
     /**
      * Creates new form GUI
      */
     public GUI() {
-        initComponents();
+        initComponents(); // auto create components
+        // set up vlcj
+        add(vlcj);
+        setVisible(true);
+        vlcj.mediaPlayer().media().play("./b-roll.mp4");
+        vlcj.mediaPlayer().controls().setRepeat(true);
 
-//        String file;
-//        try{
-//            for( int i = 0; i < submissions; i++){
-//            file = "image" + i + ".png";
-//                System.out.println(file);
-//            images.add(ImageIO.read(new File(file)));
+        realWidth = vlcj.getWidth();
+        realHeight = vlcj.getHeight();
+
+        System.out.println(realWidth);
+        System.out.println(realHeight);
+
+        Texts texts = new Texts();
+        texts.setVisible(true);
+
+        MediaPopup popup = new MediaPopup();
+        popup.setVisible(true);
+
+//        media = readMedia();
+//        display = new ActionListener() {
+//            public void actionPerformed(ActionEvent evnt) {
+//                current++;
+//                if (current >= submissions) {
+//                    current = 0;
+//                }
+//                select(current);
+//                System.out.println(media.get(current).getRuntime());
+//                timer.setDelay(media.get(current).getRuntime());
 //            }
-//        }catch (IOException e){
-//            System.out.println("IOException in Screen()");
-//        }
-        screen1.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                select(current);
-
-                current++;
-                if (current >= submissions) {
-                    current = 0;
-                }
-            }
-        }, 10 * 1000, 10 * 1000);
-
+//        };
+//        timer = new Timer(media.get(current).getRuntime(), display);
+//        timer.setRepeats(true);
+//        timer.start();
     }
 
     /**
@@ -66,94 +80,26 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        description = new javax.swing.JLabel();
-        screen1 = new jmw.rdtv.tvapp.Screen();
-        title = new javax.swing.JLabel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        description.setText("desc");
-
-        javax.swing.GroupLayout screen1Layout = new javax.swing.GroupLayout(screen1);
-        screen1.setLayout(screen1Layout);
-        screen1Layout.setHorizontalGroup(
-            screen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 325, Short.MAX_VALUE)
-        );
-        screen1Layout.setVerticalGroup(
-            screen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
-        );
-
-        title.setText("Title");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(screen1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(title)
-                .addGap(179, 179, 179))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(title)
-                .addGap(18, 18, 18)
-                .addComponent(screen1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(description, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        setTitle("RDTV Official");
+        setMinimumSize(new java.awt.Dimension(1920, 1080));
+        setPreferredSize(new java.awt.Dimension(1920, 1080));
+        setSize(new java.awt.Dimension(1920, 1080));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-    }
-
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        vlcj.release();
+        System.exit(0);
+    }//GEN-LAST:event_formWindowClosing
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel description;
-    private jmw.rdtv.tvapp.Screen screen1;
-    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
-
     /**
      * @return the submissions
      */
@@ -161,10 +107,33 @@ public class GUI extends javax.swing.JFrame {
         return submissions;
     }
 
-    public void select(int i) {
-        //screen1.setMedia(media.get(i).image);
-        description.setText(media.get(i).getDescription());
-        title.setText(media.get(i).getName());
-        screen1.repaint();
-    }
+//    public ArrayList<Submission> readMedia() {
+//        Scanner sc;
+//        ArrayList<Submission> mList = new ArrayList();
+//
+//        try {
+//            sc = new Scanner(new File("items.json"));
+//            while (sc.hasNextLine() && !sc.nextLine().equals("}]")) {
+//                Submission m = new Submission();
+//                m.setName(sc.nextLine());
+//                m.setName(m.getName().substring(13, m.getName().length() - 2));
+//                m.setDescription(sc.nextLine());
+//                m.setDescription(m.getDescription().substring(20, m.getDescription().length() - 2));
+//                m.setBegin(sc.nextLine());
+//                m.setEnd(sc.nextLine());
+//                m.setFileName(sc.nextLine());
+//                m.setFileName(m.getFileName().substring(17, m.getFileName().length() - 1));
+//                images.add(ImageIO.read(new File("media/" + m.getFileName())));
+//                m.setPriority(runtime);
+//                runtime += 3000;
+//                mList.add(m);
+//
+//                submissions++;
+//            }
+//        } catch (IOException e) {
+//            System.out.println("broken");
+//        }
+//
+//        return mList;
+//    }
 }
