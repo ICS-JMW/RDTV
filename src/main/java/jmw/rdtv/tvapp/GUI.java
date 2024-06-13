@@ -9,6 +9,8 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.image.*;
 import javax.imageio.*;
+import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 /**
  *
@@ -25,7 +27,7 @@ public final class GUI extends javax.swing.JFrame {
     private ActionListener display;
     private int runtime = 300;
 
-    private Screen vlcj = new Screen();
+    private EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
     int realWidth = 1920;
     int realHeight = 1080;
 
@@ -34,22 +36,23 @@ public final class GUI extends javax.swing.JFrame {
      */
     public GUI() {
         initComponents(); // auto create components
-        // maximize window
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         // set up vlcj
         add(vlcj);
         setVisible(true);
         vlcj.mediaPlayer().media().play("./b-roll.mp4");
         vlcj.mediaPlayer().controls().setRepeat(true);
 
-        realWidth = getWidth();
-        realHeight = getHeight();
+        realWidth = vlcj.getWidth();
+        realHeight = vlcj.getHeight();
+
+        System.out.println(realWidth);
+        System.out.println(realHeight);
+
         Texts texts = new Texts();
-        texts.setAlwaysOnTop(true);
-        texts.setLocation(realWidth - 1000, realHeight-200);
+        texts.setVisible(true);
 
         MediaPopup popup = new MediaPopup();
-        popup.setAlwaysOnTop(true);
+        popup.setVisible(true);
 
 //        media = readMedia();
 //        display = new ActionListener() {
