@@ -106,34 +106,4 @@ public final class GUI extends javax.swing.JFrame {
     public static int getSubmissions() {
         return submissions;
     }
-
-//    public ArrayList<Submission> readMedia() {
-//        Scanner sc;
-//        ArrayList<Submission> mList = new ArrayList();
-//
-//        try {
-//            sc = new Scanner(new File("items.json"));
-//            while (sc.hasNextLine() && !sc.nextLine().equals("}]")) {
-//                Submission m = new Submission();
-//                m.setName(sc.nextLine());
-//                m.setName(m.getName().substring(13, m.getName().length() - 2));
-//                m.setDescription(sc.nextLine());
-//                m.setDescription(m.getDescription().substring(20, m.getDescription().length() - 2));
-//                m.setBegin(sc.nextLine());
-//                m.setEnd(sc.nextLine());
-//                m.setFileName(sc.nextLine());
-//                m.setFileName(m.getFileName().substring(17, m.getFileName().length() - 1));
-//                images.add(ImageIO.read(new File("media/" + m.getFileName())));
-//                m.setPriority(runtime);
-//                runtime += 3000;
-//                mList.add(m);
-//
-//                submissions++;
-//            }
-//        } catch (IOException e) {
-//            System.out.println("broken");
-//        }
-//
-//        return mList;
-//    }
 }

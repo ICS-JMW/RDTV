@@ -6,8 +6,8 @@ public class Submission {
 
     private String name;
     private String description;
-    private Date begin;
-    private Date end;
+    private long begin;
+    private long end;
     private Media media;
     private int priority;
 
@@ -27,19 +27,19 @@ public class Submission {
         this.description = description;
     }
 
-    public Date getBegin() {
+    public long getBegin() {
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public void setBegin(long begin) {
         this.begin = begin;
     }
 
-    public Date getEnd() {
+    public long getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(long end) {
         this.end = end;
     }
 
@@ -59,7 +59,7 @@ public class Submission {
         this.priority = priority;
     }
 
-    public Submission(String name, String description, Date begin, Date end, Media media, int priority) {
+    public Submission(String name, String description, long begin, long end, Media media, int priority) {
         this.name = name;
         this.description = description;
         this.begin = begin;

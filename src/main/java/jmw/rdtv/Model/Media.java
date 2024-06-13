@@ -10,5 +10,4 @@ package jmw.rdtv.Model;
  */
 public interface Media {
 
-    public void draw();
 }

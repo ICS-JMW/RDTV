@@ -28,8 +28,8 @@ public class TextsPanel extends javax.swing.JPanel {
     public TextsPanel() {
         initComponents();
         try {
-            rdtvLogo = ImageIO.read(new File("/home/hhwl/NetBeansProjects/RDTV/media/images.png"));
-            csdLogo = ImageIO.read(new File("/home/hhwl/NetBeansProjects/RDTV/media/logo.png"));
+            rdtvLogo = ImageIO.read(new File("/home/hhwl/NetBeansProjects/RDTV/logos/rdtvLogo.png"));
+            csdLogo = ImageIO.read(new File("/home/hhwl/NetBeansProjects/RDTV/logos/csdLogo.png"));
         } catch (IOException ex) {
             Logger.getLogger(TextsPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
