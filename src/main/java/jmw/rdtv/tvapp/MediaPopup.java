@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 /**
  *
@@ -19,11 +20,14 @@ public class MediaPopup extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public MediaPopup() {
-        super();
         initComponents();
-        dispose();
-        setUndecorated(true);
+        EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
+        // set up vlcj
+        add(vlcj);
         setVisible(true);
+        vlcj.mediaPlayer().media().play("/home/hhwl/Downloads/RDT_20240528_155706.mp4");
+        vlcj.mediaPlayer().controls().setRepeat(true);
+        this.setSize(640, 480);
     }
 
     /**
@@ -36,43 +40,14 @@ public class MediaPopup extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1092, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 249, Short.MAX_VALUE)
-        );
+        setAlwaysOnTop(true);
+        setBackground(new java.awt.Color(0, 0, 0));
+        setUndecorated(true);
+        setType(java.awt.Window.Type.UTILITY);
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MediaPopup.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(MediaPopup.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(MediaPopup.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(MediaPopup.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MediaPopup().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

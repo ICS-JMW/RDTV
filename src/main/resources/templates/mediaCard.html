@@ -1,0 +1,17 @@
+<html xmlns:th="https://www.thymeleaf.org">
+
+<body>
+    <div class="mediaCard">
+        <div class="imageContainer">
+        </div>
+        <div class="infoContainer">
+            <h2 th:text="${image.name}" />
+            <p th:text="${image.description}" />
+            <p th:text="${image.submitTime}" />
+            <p th:text="${image.end}" />
+        </div>
+    </div>
+
+</body>
+
+</html>

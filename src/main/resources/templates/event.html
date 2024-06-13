@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-7" />
+</head>
+
+<body>
+    <h1>Event</h1>
+    <form action="#" th:action="@{/event}" th:object="${event}" method="post">
+        <p>Name: <input type="text" th:field="*{name}" /></p>
+        <p>Description: <input type="text" th:field="*{description}" /></p>
+        <p>Beginning time: <input type="datetime-local" th:field="*{begin}" /></p>
+        <p>Ending time: <input type="datetime-local" th:field="*{end}" /></p>
+        <p><input type="text" id="timeStorage" th:field="*{submitTime}" readonly
+                style="visibility: hidden;position: absolute;" /></p>
+        <script>
+            function updateTime() {
+                const box = document.getElementById('timeStorage')
+                t = Date();
+                box.value = t;
+            }
+            updateTime()
+            window.setInterval(updateTime, 1000)
+
+        </script>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+
+</body>
+
+</html>

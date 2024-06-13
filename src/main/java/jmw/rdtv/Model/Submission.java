@@ -1,6 +1,5 @@
 package jmw.rdtv.Model;
 
-import java.io.File;
 import java.util.*;
 
 public class Submission {
