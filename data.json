@@ -5,8 +5,10 @@
         "begin": 1718291863,
         "end": 1818291863,
         "media": {
+            "type": "video",
             "location": "/home/hhwl/Downloads/RDT_20240528_155706.mp4"
         },
-        "priority": 1
+        "priority": 1,
+        "approved": false
     }
 ]

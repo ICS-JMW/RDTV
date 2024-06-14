@@ -4,7 +4,7 @@ package jmw.rdtv.Model;
  *
  * @author hhwl
  */
-public class Video {
+public class Video extends Media {
 
     String location;
 
@@ -16,12 +16,9 @@ public class Video {
         return location;
     }
 
-    /**
-     *
-     * @param location
-     */
-    public Video(String location) {
+    public Video(String location, String type) {
         this.location = location;
+        this.type = type;
     }
 
 }

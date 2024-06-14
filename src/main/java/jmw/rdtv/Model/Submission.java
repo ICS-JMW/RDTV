@@ -14,6 +14,8 @@ public class Submission {
     private long end;
     private Media media;
     private int priority;
+    private long submitTime;
+    private boolean approved;
 
     /**
      *
@@ -111,22 +113,30 @@ public class Submission {
         this.priority = priority;
     }
 
-    /**
-     *
-     * @param name
-     * @param description
-     * @param begin
-     * @param end
-     * @param media
-     * @param priority
-     */
-    public Submission(String name, String description, long begin, long end, Media media, int priority) {
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public long getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(long submitTime) {
+        this.submitTime = submitTime;
+    }
+
+    public Submission(String name, String description, long begin, long end, Media media, int priority, long submitTime, boolean approved) {
         this.name = name;
         this.description = description;
         this.begin = begin;
         this.end = end;
         this.media = media;
         this.priority = priority;
+        this.submitTime = submitTime;
+        this.approved = approved;
     }
-
 }

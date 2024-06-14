@@ -23,7 +23,7 @@ public class MediaPopup extends javax.swing.JFrame {
         // set up vlcj
         add(vlcj);
         setVisible(true);
-        vlcj.mediaPlayer().media().play("/home/hhwl/Downloads/RDT_20240528_155706.mp4");
+        vlcj.mediaPlayer().media().play("./b-roll.mp4");
         vlcj.mediaPlayer().controls().setRepeat(true);
         this.setSize(640, 480);
     }

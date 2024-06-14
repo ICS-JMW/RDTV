@@ -20,7 +20,7 @@ public final class GUI extends javax.swing.JFrame {
 //    private ActionListener display;
 //    private int runtime = 300;
     // video player component
-    private EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
+    private final EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
 
     /**
      * Creates new form GUI
@@ -66,7 +66,7 @@ public final class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("RDTV Official");
         setMinimumSize(new java.awt.Dimension(1920, 1080));
         setPreferredSize(new java.awt.Dimension(1920, 1080));
@@ -83,7 +83,7 @@ public final class GUI extends javax.swing.JFrame {
     // close vlcj when window closes
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         vlcj.release();
-        System.exit(0);
+//        System.exit(0);
     }//GEN-LAST:event_formWindowClosing
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JScrollPane;
+import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -57,31 +59,39 @@ public class TextsPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        headline = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        subs = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1678, 300));
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Cantarell", 0, 72)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Breaking: Spy Cows Explode In D.C.");
+        headline.setBackground(new java.awt.Color(255, 255, 255));
+        headline.setFont(new java.awt.Font("Cantarell", 0, 72)); // NOI18N
+        headline.setForeground(new java.awt.Color(0, 0, 0));
+        headline.setText("Breaking: Spy Cows Explode In D.C.");
+        headline.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setBackground(new java.awt.Color(0, 0, 0));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("VCR OSD Mono", 0, 44)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextArea1.setRows(5);
-        jTextArea1.setText("This line can hold 64 characters!!!\nThis line can hold 64 characters!!!");
-        jTextArea1.setWrapStyleWord(true);
-        jTextArea1.setFocusable(false);
-        jTextArea1.setName(""); // NOI18N
-        jTextArea1.setVerifyInputWhenFocusTarget(false);
-        jScrollPane1.setViewportView(jTextArea1);
+        jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jScrollPane1.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        subs.setEditable(false);
+        subs.setBackground(new java.awt.Color(0, 0, 0));
+        subs.setColumns(20);
+        subs.setFont(new java.awt.Font("VCR OSD Mono", 0, 44)); // NOI18N
+        subs.setForeground(new java.awt.Color(255, 255, 255));
+        subs.setRows(5);
+        subs.setText("This line can hold 64 characters!!!\nThis line can hold 64 characters!!!");
+        subs.setWrapStyleWord(true);
+        subs.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        subs.setFocusable(false);
+        subs.setName(""); // NOI18N
+        subs.setVerifyInputWhenFocusTarget(false);
+        jScrollPane1.setViewportView(subs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -89,7 +99,7 @@ public class TextsPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(236, 236, 236)
-                .addComponent(jLabel1)
+                .addComponent(headline)
                 .addGap(0, 319, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
@@ -98,14 +108,14 @@ public class TextsPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
-                .addComponent(jLabel1)
+                .addComponent(headline)
                 .addContainerGap(60, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel headline;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea subs;
     // End of variables declaration//GEN-END:variables
 }

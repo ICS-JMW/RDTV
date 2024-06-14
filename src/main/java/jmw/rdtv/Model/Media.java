@@ -4,10 +4,22 @@
  */
 package jmw.rdtv.Model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  *
  * @author hhwl
  */
-public interface Media {
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
+@JsonSubTypes({
+    @Type(value = Images.class, name = "images"),
+    @Type(value = Video.class, name = "video")})
+public abstract class Media {
 
+    public String type;
 }
