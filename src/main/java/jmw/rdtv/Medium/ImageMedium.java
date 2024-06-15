@@ -7,6 +7,7 @@ public class ImageMedium extends Medium {
     String description;
     String end;
     char approved = 'u'; // u = unapproved, d = denied, a = approved
+    String fileName;
 
     public String getName() {
         return name;
@@ -42,7 +43,7 @@ public class ImageMedium extends Medium {
 
     @Override
     public String toString() {
-        return approved + DELIMITER + " " + name + DELIMITER + " " + description + DELIMITER + " " + submitTime + DELIMITER + " " + end;
+        return approved + DELIMITER + " " + name + DELIMITER + " " + description + DELIMITER + " " + submitTime + DELIMITER + " " + end + DELIMITER + " " + fileName;
     }
 
     public char getApproved() {
@@ -51,6 +52,14 @@ public class ImageMedium extends Medium {
 
     public void setApproved(char approved) {
         this.approved = approved;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
 }
