@@ -1,7 +1,9 @@
 package jmw.rdtv.tvapp;
 
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.Timer;
 import jmw.rdtv.Model.Submission;
-import java.util.*;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 /**
@@ -11,15 +13,30 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
  */
 public final class GUI extends javax.swing.JFrame {
 
-    /**
-     *
-     */
-    public static ArrayList<Submission> data = new ArrayList(); // list of submissions
-    private final Texts texts = new Texts();
-    private final MediaPopup popup = new MediaPopup();
-    private final EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
+    // constants
+    public static final int LINE_DELAY = 2000;
 
-    // video player component
+    // singletons
+    private static final ArrayList<Submission> data = Submission.readSubmissionsFile(); // list of submissions
+    private static final Texts texts = new Texts();
+    private static final MediaPopup popup = new MediaPopup();
+    private static final EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
+    private static final Timer lineTimer = new Timer(LINE_DELAY, new ActionListener() {
+        lineHandle();
+    });
+    private static final Timer videoTimer = new Timer(10000, new ActionListener() { // dummy delay value
+        videoEndHandle();
+    });
+    private static final Timer imageTimer = new Timer(10000, new ActionListener() { // dummy delay value
+        imageHandle();
+    });
+    private static final Timer screensaverTimer = new Timer(2 * 60 * 1000, new ActionListener() {
+        endScreensaver();
+    });
+
+    // mutables
+    int currentSubmission = 0;
+
     /**
      * Creates new form GUI
      */
@@ -31,27 +48,51 @@ public final class GUI extends javax.swing.JFrame {
         setVisible(true);
         vlcj.mediaPlayer().media().play("./b-roll.mp4");
         vlcj.mediaPlayer().controls().setRepeat(true);
-        data = Submission.readSubmissionsFile();
-        System.out.println(data);
-
+        // set up overlays
         texts.setVisible(true);
         popup.setVisible(true);
+        // set up timers
+        lineTimer.setRepeats(true);
+        mediaTimer.setRepeats(true);
+        presentSubmission(currentSubmission);
+    }
 
-//        media = readMedia();
-//        display = new ActionListener() {
-//            public void actionPerformed(ActionEvent evnt) {
-//                current++;
-//                if (current >= submissions) {
-//                    current = 0;
-//                }
-//                select(current);
-//                System.out.println(media.get(current).getRuntime());
-//                timer.setDelay(media.get(current).getRuntime());
-//            }
-//        };
-//        timer = new Timer(media.get(current).getRuntime(), display);
-//        timer.setRepeats(true);
-//        timer.start();
+    public void presentSubmission(int index) {
+        Submission sm = data.get(index);
+        if (sm.getMedia() instanceof Video) {
+
+            videoTimer.setDelay();
+        } else if (sm.getMedia() instanceof Images) {
+
+        }
+    }
+
+    public void prepareVideo(String fileLocation) {
+
+    }
+
+    public void lineHandle() {
+
+    }
+
+    public void videoEndHandle() {
+
+    }
+
+    public void imageHandle() {
+
+    }
+
+    public void startScreensaver() {
+        Runtime.getRuntime().exec("xscreensaver-command -activate");
+        screensaverTimer.start();
+    }
+
+    public void endScreensaver() {
+        Runtime.getRuntime().exec("xscreensaver-command -deactivate");
+        screensaverTimer.stop();
+        currentSubmission = 0;
+        presentSubmission(currentSubmission);
     }
 
     /**

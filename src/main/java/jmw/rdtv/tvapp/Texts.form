@@ -34,7 +34,7 @@
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
   <SubComponents>
-    <Component class="jmw.rdtv.tvapp.TextsPanel" name="textsPanel1">
+    <Component class="jmw.rdtv.tvapp.TextsPanel" name="panel">
     </Component>
   </SubComponents>
 </Form>

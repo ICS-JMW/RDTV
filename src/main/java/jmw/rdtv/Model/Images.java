@@ -1,5 +1,6 @@
 package jmw.rdtv.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import javax.imageio.ImageIO;
  */
 public class Images extends Media {
 
+    @JsonProperty("images")
     ArrayList<Image> images = new ArrayList<>();
 
     /**

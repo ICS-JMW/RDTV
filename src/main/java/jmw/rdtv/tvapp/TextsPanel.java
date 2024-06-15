@@ -18,6 +18,8 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -54,6 +56,22 @@ public class TextsPanel extends javax.swing.JPanel {
         // draw logos
         g.drawImage(rdtvLogo, 1478, 140, 200, 120, this);
         g.drawImage(csdLogo, 0, 100, 200, 200, this);
+    }
+
+    public JLabel getHeadline() {
+        return headline;
+    }
+
+    public void setHeadline(JLabel headline) {
+        this.headline = headline;
+    }
+
+    public JTextArea getSubs() {
+        return subs;
+    }
+
+    public void setSubs(JTextArea subs) {
+        this.subs = subs;
     }
 
     /**
