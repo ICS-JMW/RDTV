@@ -42,25 +42,13 @@ public class Texts extends javax.swing.JFrame {
         setUndecorated(true);
         setType(java.awt.Window.Type.UTILITY);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+
+        panel.setMinimumSize(new java.awt.Dimension(1728, 300));
+        panel.setPreferredSize(new java.awt.Dimension(1728, 300));
         getContentPane().add(panel);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Texts.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new Texts().setVisible(true);
-        });
-    }
 
     public TextsPanel getPanel() {
         return panel;

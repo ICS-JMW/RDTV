@@ -89,12 +89,12 @@ public class TextsPanel extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1678, 300));
+        setPreferredSize(new java.awt.Dimension(1728, 300));
 
         headline.setBackground(new java.awt.Color(255, 255, 255));
         headline.setFont(new java.awt.Font("Cantarell", 0, 72)); // NOI18N
         headline.setForeground(new java.awt.Color(0, 0, 0));
-        headline.setText("Breaking: Spy Cows Explode In D.C.");
+        headline.setText("SAMPLE HEADLINE");
         headline.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
         scroller.setBackground(new java.awt.Color(0, 0, 0));
@@ -113,7 +113,10 @@ public class TextsPanel extends javax.swing.JPanel {
         subs.setWrapStyleWord(true);
         subs.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         subs.setFocusable(false);
+        subs.setMargin(new java.awt.Insets(2, 16, 2, 6));
+        subs.setMinimumSize(new java.awt.Dimension(1728, 200));
         subs.setName(""); // NOI18N
+        subs.setPreferredSize(new java.awt.Dimension(1728, 200));
         subs.setVerifyInputWhenFocusTarget(false);
         scroller.setViewportView(subs);
 
@@ -124,7 +127,7 @@ public class TextsPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(236, 236, 236)
                 .addComponent(headline)
-                .addGap(0, 319, Short.MAX_VALUE))
+                .addGap(0, 818, Short.MAX_VALUE))
             .addComponent(scroller, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(

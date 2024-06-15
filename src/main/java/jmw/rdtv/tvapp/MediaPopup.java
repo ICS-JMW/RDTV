@@ -36,7 +36,7 @@ public class MediaPopup extends javax.swing.JFrame {
     }
 
     public void setUpVlcj(String fileLocation) {
-        removeAll();
+        remove(imageContainer);
         add(vlcj);
         vlcj.mediaPlayer().media().play(fileLocation);
         vlcj.mediaPlayer().controls().setRepeat(true);
@@ -45,7 +45,7 @@ public class MediaPopup extends javax.swing.JFrame {
     }
 
     public void setUpImages() {
-        removeAll();
+        remove(vlcj);
         add(imageContainer);
         revalidate();
         repaint();
@@ -56,12 +56,14 @@ public class MediaPopup extends javax.swing.JFrame {
             Image image = ImageIO.read(new File(fileLocation));
             int imageWidth = image.getWidth(rootPane);
             int imageHeight = image.getHeight(rootPane);
+            // resize the image to fit in popup while preserving aspect ration
             double factor;
             if (imageWidth / (imageHeight + .0) > WIN_WIDTH / (WIN_HEIGHT + .0)) {
                 factor = imageWidth / WIN_WIDTH;
             } else {
                 factor = imageHeight / WIN_HEIGHT;
             }
+            // display image
             imageContainer.setIcon(new ImageIcon(image.getScaledInstance((int) (WIN_WIDTH * factor), (int) (WIN_HEIGHT * factor), Image.SCALE_FAST)));
         } catch (IOException ex) {
             Logger.getLogger(MediaPopup.class.getName()).log(Level.SEVERE, null, ex);
