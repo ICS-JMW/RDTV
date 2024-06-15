@@ -1,16 +1,26 @@
 <html xmlns:th="https://www.thymeleaf.org">
-    <body>
-        <div class="mediaCard">
-            <!--            <div class="imageContainer">
-                            <img th:src="@{${image.fileName}}">
-                             <p th:text="${image.fileName}" />
-                        </div>-->
-            <div class="infoContainer">
-                <h2 th:text="${submission.name}" />
-                <p th:text="${submission.description}" />
-                <p th:text="${submission.submitTime}" />
-                <p th:text="${submission.end}" />
-            </div>
+
+<body>
+    <div class="mediaCard">
+        <div class="imageContainer">
+            <!-- eventually make an expression that lets you find file and name of submission -->
+            <img th:src="'/media/0.png'">
         </div>
-    </body>
+        <div class="infoContainer">
+            <h2 th:text="${submission.headline}" />
+            <p th:text="${submission.description}" />
+            <p th:text="${submission.start}" />
+            <p th:text="${submission.end}" />
+            <p th:text="${submission.end}" />
+        </div>
+    </div>
+</body>
+
 </html>
+private String headline; // event headline
+private String description; // event long description
+private String start; // event begin time (unix timestamp)
+private String end; // event end time (unix timestamp)
+private Media media; // media object
+private String submitTime; // when this was submitted
+private boolean approved; // whether or not this has been approved

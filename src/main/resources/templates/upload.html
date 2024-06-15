@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
 
-    <body>
-        <h1>Media</h1>
-        <form action="#" th:action="@{/upload}" th:object="${submission}" method="post" enctype="multipart/form-data">
-            <p>Title: <input type="text" th:field="*{headline}" /></p>
-            <p>Description: <input type="text" th:field="*{description}" /></p>
-            <p>Event end time: <input type="datetime-local" th:field="*{start}" /></p>
-            <p>Event start time: <input type="datetime-local" th:field="*{end}" /></p>
-            <p><input type="text" id="timeStorage" th:field="*{submitTime}" readonly
-                      style="visibility: hidden;position: absolute;" /></p>
-            <script>
-                function updateTime() {
-                    const box = document.getElementById('timeStorage')
-                    t = Date();
-                    box.value = t;
-                }
-                updateTime()
-                window.setInterval(updateTime, 1000)
+<body>
+    <h1>Media</h1>
+    <form action="#" th:action="@{/upload}" th:object="${submission}" method="post" enctype="multipart/form-data">
+        <p>Title: <input type="text" th:field="*{headline}" /></p>
+        <p>Description: <input type="text" th:field="*{description}" /></p>
+        <p>Event start time: <input type="datetime-local" th:field="*{start}" /></p>
+        <p>Event end time: <input type="datetime-local" th:field="*{end}" /></p>
+        <p><input type="text" id="timeStorage" th:field="*{submitTime}" readonly
+                style="visibility: hidden;position: absolute;" /></p>
+        <script>
+            function updateTime() {
+                const box = document.getElementById('timeStorage')
+                t = Date();
+                box.value = t;
+            }
+            updateTime()
+            window.setInterval(updateTime, 1000)
 
-            </script>
-            <input type="file" name="file">
-            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-        </form>
+        </script>
+        <input type="file" name="file">
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
 
-    </body>
+</body>
 
 </html>

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import jmw.rdtv.Model.Submission;
 
@@ -31,6 +32,7 @@ import jmw.rdtv.Model.Submission;
  * @author Johnathan, William
  */
 @SpringBootApplication
+@EnableWebMvc
 @RestController
 public class RdtvApplication {
 
@@ -96,14 +98,12 @@ public class RdtvApplication {
             // can only handle single images for now
             File img = new File("./media/" + lines + "." + fileExt);
             // File img = new File("test." + fileType);
-            // System.out.println(img.getAbsolutePath());
             img.createNewFile();
             try (OutputStream os = new FileOutputStream(img)) {
                 os.write(file.getBytes());
             }
         } catch (IOException e) {
-            return new ModelAndView("epic fail");
-            // System.out.println(e);
+            System.out.println(e);
         }
         // System.out.println(fileType);
         // System.out.println(image);
@@ -146,17 +146,6 @@ public class RdtvApplication {
     @RequestMapping(path = "/admin", method = RequestMethod.GET)
 
     public ModelAndView adminPage() {
-        ModelAndView ret = new ModelAndView();
-        ret.setViewName("adminPanel.html");
-        return ret;
-    }
-
-    /**
-     *
-     * @return
-     */
-    @RequestMapping(path = "/admin/events", method = RequestMethod.GET)
-    public ModelAndView adminEventView() {
         ModelAndView ret = new ModelAndView();
         ret.setViewName("adminPanel.html");
         return ret;
