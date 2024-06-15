@@ -3,6 +3,8 @@
 <body>
     <div class="mediaCard">
         <div class="imageContainer">
+            <img th:src="@{${image.fileName}}">
+            <!-- <p th:text="${image.fileName}" /> -->
         </div>
         <div class="infoContainer">
             <h2 th:text="${image.name}" />

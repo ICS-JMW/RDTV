@@ -73,10 +73,13 @@ public class RdtvApplication {
      * can be uploaded, ranging from images to weird things things like
      * executables.
      *
-     * @param submission contains information on the media.
-     * @param file
-     * @param model
-     * @return
+     * @param media contains information on the media. Passed by the website
+     * (upload.html)
+     * @param file multipartfile containing image/video/exe etc.
+     * @param model idk what this does
+     * @return currently retursn to the upload webpage, perhaps in the future an
+     * indicator for success will be indicated
+     *
      */
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public ModelAndView uploadSubmission(@ModelAttribute Submission submission, @RequestParam("file") MultipartFile file, Model model) {
@@ -136,7 +139,38 @@ public class RdtvApplication {
 //        return eventPage(model);
 //    }
     /**
-     * unfinished admin panel
+     * @param event
+     * @param model
+     * @return
+     */
+    @RequestMapping(path = "/event", method = RequestMethod.POST)
+    public ModelAndView addEvent(@ModelAttribute EventMedium event, Model model) {
+        File eventLog = new File(LOGGING_LOCATION + "/storage/events.bf");
+        try {
+            //get number of lines in event file
+            long lines = Files.lines(Paths.get(eventLog.getAbsolutePath())).count();
+            //make filewriter that appends to the log
+            //append the current event to the file
+            //write to disk
+        } catch (Exception e) {
+            try (FileWriter logger = new FileWriter(eventLog, true)) {
+                logger.append(event + "\n");
+            }
+        } catch (IOException e) {
+        }
+        return eventPage(model);
+    }
+
+    // @RequestMapping(path = "/getImages/{id}", method = RequestMethod.GET)
+    // public ResponseEntity<InputStreamResource> getImageDynamicType(long id) {
+    //     InputStream in = getClass.getResourceAsStream(STORAGE_LOCATION + "/storage/");
+    //     return ResponseEntity.ok()
+    //             .body(new InputStreamResource(in));
+    // }
+    /**
+     * Not implemented yet, will probably be multiple seperate methods.
+     *
+     * ======= /**
      *
      * @return
      */
@@ -172,11 +206,13 @@ public class RdtvApplication {
         return ret;
     }
 
+    //will probably be a login page
     /**
      *
      * @return
      */
     @RequestMapping(path = "/admin", method = RequestMethod.GET)
+
     public ModelAndView adminPage() {
         ModelAndView ret = new ModelAndView();
         ret.setViewName("adminPanel.html");
@@ -202,6 +238,51 @@ public class RdtvApplication {
     public ModelAndView adminMediaView() {
         ModelAndView ret = new ModelAndView();
         ret.setViewName("adminPanel.html");
+        return ret;
+    }
+
+    /**
+     * inverse of toString basically
+     *
+     * @param image stringified version of theimage
+     * @return imagemedium based on string provided.
+     */
+    public ImageMedium parseImage(String image) {
+        ImageMedium imageMedium = new ImageMedium();
+        String[] seperated = new String[6];
+        //split the string based on the delimiter defined in medium.java
+        seperated = image.split(Medium.DELIMITER);
+        //add to blank image medium
+        imageMedium.setApproved(seperated[0].charAt(0));
+        imageMedium.setName(seperated[1].trim());
+        imageMedium.setDescription(seperated[2].trim());
+        imageMedium.setSubmitTime(seperated[3].trim());
+        imageMedium.setEnd(seperated[4].trim());
+        imageMedium.setFileName(seperated[5].trim());
+        return imageMedium;
+    }
+
+    public ModelAndView generateMediaCard(ImageMedium image, Model model) {
+        //make a new resource "image" in the server that can the website can pass information into
+        model.addAttribute("image", image);
+        System.out.println(image);
+        ModelAndView card = new ModelAndView("mediaCard.html");
+        return card;
+    }
+
+    @RequestMapping(path = "/event", method = RequestMethod.GET)
+    public ModelAndView eventPage(Model model) {
+        model.addAttribute("event", new EventMedium());
+        ModelAndView ret = new ModelAndView();
+        ret.setViewName("event.html");
+        return ret;
+    }
+
+    @RequestMapping(path = "/upload", method = RequestMethod.GET)
+    public ModelAndView uploadPage(Model model) {
+        model.addAttribute("image", new ImageMedium());
+        ModelAndView ret = new ModelAndView();
+        ret.setViewName("upload.html");
         return ret;
     }
 
