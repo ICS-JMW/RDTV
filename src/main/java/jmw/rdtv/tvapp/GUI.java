@@ -83,7 +83,6 @@ public final class GUI extends javax.swing.JFrame {
     // close vlcj when window closes
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         vlcj.release();
-//        System.exit(0);
     }//GEN-LAST:event_formWindowClosing
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

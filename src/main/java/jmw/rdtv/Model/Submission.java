@@ -1,21 +1,19 @@
 package jmw.rdtv.Model;
 
-import java.util.*;
-
 /**
  *
  * @author hhwl
  */
 public class Submission {
 
-    private String name;
-    private String description;
-    private long begin;
-    private long end;
-    private Media media;
-    private int priority;
-    private long submitTime;
-    private boolean approved;
+    private String name;            // event headline
+    private String description;     // event long description
+    private long begin;             // event begin time (unix timestamp)
+    private long end;               // event end time (unix timestamp)
+    private Media media;            // media object
+    private int priority;           // how often event gets shown by the GUI (keep at 1 for now)
+    private long submitTime;        // when this was submitted
+    private boolean approved;       // whether or not this has been approved
 
     /**
      *

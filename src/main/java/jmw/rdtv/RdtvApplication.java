@@ -31,10 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import jmw.rdtv.Medium.EventMedium;
-import jmw.rdtv.Medium.ImageMedium;
-import jmw.rdtv.Medium.Medium;
-import jmw.rdtv.Model.Images;
 import jmw.rdtv.Model.Submission;
 
 /**
@@ -45,6 +41,7 @@ import jmw.rdtv.Model.Submission;
 @RestController
 public class RdtvApplication {
 
+    private static final String DELIMITER = "/";
     private static final String LOGGING_LOCATION = "src/main/resources";
     private static final String DATA_JSON = "./data.json";
     ObjectMapper mapper = new ObjectMapper();
@@ -62,9 +59,9 @@ public class RdtvApplication {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(RdtvApplication.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        java.awt.EventQueue.invokeLater(() -> {
-//            new jmw.rdtv.tvapp.GUI().setVisible(true);
-//        });
+        java.awt.EventQueue.invokeLater(() -> {
+            new jmw.rdtv.tvapp.GUI().setVisible(true);
+        });
     }
     //
     //api
@@ -76,22 +73,33 @@ public class RdtvApplication {
      * can be uploaded, ranging from images to weird things things like
      * executables.
      *
-     * @param media contains information on the media.
+     * @param submission contains information on the media.
      * @param file
      * @param model
      * @return
      */
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    public ModelAndView uploadSubmission(@ModelAttribute ImageMedium media, @RequestParam("file") MultipartFile file, Model model) {
+    public ModelAndView uploadSubmission(@ModelAttribute Submission submission, @RequestParam("file") MultipartFile file, Model model) {
+        // get file from model
         model.addAttribute("file", file);
-        String fileType = file.getContentType().substring(file.getContentType().lastIndexOf("/") + 1);
+        // get file type and extension
+        String contentType = file.getContentType();
+        if (contentType == null) {
+            System.out.println("Content type null!!!");
+            return null;
+        }
+        String fileExt = contentType.substring(contentType.lastIndexOf("/") + 1);
+        // add logging
         File mediaLog = new File(LOGGING_LOCATION + "/storage/media.bf");
         try {
+            // get unique file name by counting log lines???
             long lines = Files.lines(Paths.get(mediaLog.getAbsolutePath())).count();
-            try (FileWriter logger = new FileWriter(mediaLog, true)) {
-                logger.append(media + Medium.DELIMITER + " " + lines + "." + fileType + "\n");
+            try (FileWriter logger = new FileWriter(mediaLog, true)) { // write to log file
+                logger.append(submission + DELIMITER + " " + lines + "." + fileExt + "\n");
             }
-            File img = new File("./media/" + lines + "." + fileType);
+
+            // can only handle single images for now
+            File img = new File("./media/" + lines + "." + fileExt);
             // File img = new File("test." + fileType);
             // System.out.println(img.getAbsolutePath());
             img.createNewFile();
@@ -105,29 +113,30 @@ public class RdtvApplication {
         // System.out.println(fileType);
         // System.out.println(image);
         // return uploadPage(model);
-        return generateMediaCard(media, model, file);
+        return generateMediaCard(submission, model, file);
     }
 
+// ??? I thought events and submissions were the same?
+//    /**
+//     *
+//     * @param event
+//     * @param model
+//     * @return
+//     */
+//    @RequestMapping(path = "/event", method = RequestMethod.POST)
+//    public ModelAndView addEvent(@ModelAttribute EventMedium event, Model model) {
+//        File eventLog = new File(LOGGING_LOCATION + "/storage/events.bf");
+//        try {
+//            long lines = Files.lines(Paths.get(eventLog.getAbsolutePath())).count();
+//            try (FileWriter logger = new FileWriter(eventLog, true)) {
+//                logger.append(event + "\n");
+//            }
+//        } catch (IOException e) {
+//        }
+//        return eventPage(model);
+//    }
     /**
-     *
-     * @param event
-     * @param model
-     * @return
-     */
-    @RequestMapping(path = "/event", method = RequestMethod.POST)
-    public ModelAndView addEvent(@ModelAttribute EventMedium event, Model model) {
-        File eventLog = new File(LOGGING_LOCATION + "/storage/events.bf");
-        try {
-            long lines = Files.lines(Paths.get(eventLog.getAbsolutePath())).count();
-            try (FileWriter logger = new FileWriter(eventLog, true)) {
-                logger.append(event + "\n");
-            }
-        } catch (IOException e) {
-        }
-        return eventPage(model);
-    }
-
-    /**
+     * unfinished admin panel
      *
      * @return
      */
@@ -230,20 +239,20 @@ public class RdtvApplication {
         return null;
     }
 
-//    /**
-//     *
-//     * @param image
-//     * @param model
-//     * @param media
-//     * @return
-//     */
-//    public ModelAndView generateMediaCard(ImageMedium image, Model model, MultipartFile media) {
-//        model.addAttribute("image", image);
-//        model.addAttribute("media", media);
-//        ModelAndView card = new ModelAndView("mediaCard.html");
-//        return card;
-//    }
-//
+    /**
+     *
+     * @param image
+     * @param model
+     * @param media
+     * @return
+     */
+    public ModelAndView generateMediaCard(Submission image, Model model, MultipartFile media) {
+        model.addAttribute("image", image);
+        model.addAttribute("media", media);
+        ModelAndView card = new ModelAndView("mediaCard.html");
+        return card;
+    }
+
 //    @RequestMapping(path = "/upload", method = RequestMethod.GET)
 //    public ModelAndView uploadPage(Model model) {
 //        model.addAttribute("image", new ImageMedium());
