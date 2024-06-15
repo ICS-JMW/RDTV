@@ -11,6 +11,9 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
  */
 public final class GUI extends javax.swing.JFrame {
 
+    /**
+     *
+     */
     public static ArrayList<Submission> Submissions = new ArrayList(); // list of submissions
 
     // Max's code

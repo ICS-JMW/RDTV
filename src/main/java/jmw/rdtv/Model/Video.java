@@ -16,6 +16,11 @@ public class Video extends Media {
         return location;
     }
 
+    /**
+     *
+     * @param location
+     * @param type
+     */
     public Video(String location, String type) {
         this.location = location;
         this.type = type;

@@ -1,19 +1,16 @@
 <html xmlns:th="https://www.thymeleaf.org">
-
-<body>
-    <div class="mediaCard">
-        <div class="imageContainer">
-            <img th:src="@{${image.fileName}}">
-            <!-- <p th:text="${image.fileName}" /> -->
+    <body>
+        <div class="mediaCard">
+            <!--            <div class="imageContainer">
+                            <img th:src="@{${image.fileName}}">
+                             <p th:text="${image.fileName}" />
+                        </div>-->
+            <div class="infoContainer">
+                <h2 th:text="${submission.name}" />
+                <p th:text="${submission.description}" />
+                <p th:text="${submission.submitTime}" />
+                <p th:text="${submission.end}" />
+            </div>
         </div>
-        <div class="infoContainer">
-            <h2 th:text="${image.name}" />
-            <p th:text="${image.description}" />
-            <p th:text="${image.submitTime}" />
-            <p th:text="${image.end}" />
-        </div>
-    </div>
-
-</body>
-
+    </body>
 </html>

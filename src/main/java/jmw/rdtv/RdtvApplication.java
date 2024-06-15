@@ -1,18 +1,12 @@
 package jmw.rdtv;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,8 +36,7 @@ public class RdtvApplication {
 
     private static final String DELIMITER = "/";
     private static final String LOGGING_LOCATION = "src/main/resources";
-    private static final String DATA_JSON = "./data.json";
-    ObjectMapper mapper = new ObjectMapper();
+//    private static final String DATA_JSON = "./data.json";
 
     /**
      *
@@ -118,31 +111,6 @@ public class RdtvApplication {
         return generateMediaCard(submission, model, file);
     }
 
-// ??? I thought events and submissions were the same?
-//    /**
-//     *
-//     * @param event
-//     * @param model
-//     * @return
-//     */
-//    @RequestMapping(path = "/event", method = RequestMethod.POST)
-//    public ModelAndView addEvent(@ModelAttribute EventMedium event, Model model) {
-//        File eventLog = new File(LOGGING_LOCATION + "/storage/events.bf");
-//        try {
-//            long lines = Files.lines(Paths.get(eventLog.getAbsolutePath())).count();
-//            try (FileWriter logger = new FileWriter(eventLog, true)) {
-//                logger.append(event + "\n");
-//            }
-//        } catch (IOException e) {
-//        }
-//        return eventPage(model);
-//    }
-    // @RequestMapping(path = "/getImages/{id}", method = RequestMethod.GET)
-    // public ResponseEntity<InputStreamResource> getImageDynamicType(long id) {
-    //     InputStream in = getClass.getResourceAsStream(STORAGE_LOCATION + "/storage/");
-    //     return ResponseEntity.ok()
-    //             .body(new InputStreamResource(in));
-    // }
     /**
      * Not implemented yet, will probably be multiple separate methods.
      *
@@ -154,23 +122,11 @@ public class RdtvApplication {
     public boolean modifyThing() {
         return true;
     }
-    //
-    //end of api
-    //
-    //
-    //api
-    //
-//	@RequestMapping(path = "/Upload", method=RequestMethod.POST)
-//	public ModelAndView UploadImages(@RequestBody ){
-//		ModelAndView ret = new ModelAndView();
-//		ret.setViewName("mainPage.html");
-//		return ret;
-//	}
+
     //
     //end of api
     //
     //get function
-
     /**
      *
      * @return
@@ -217,77 +173,43 @@ public class RdtvApplication {
         return ret;
     }
 
-//    /**
-//     * inverse of toString basically
-//     *
-//     * @param image stringified version of theimage
-//     * @return imagemedium based on string provided.
-//     */
-//    public ImageMedium parseImage(String image) {
-//        ImageMedium imageMedium = new ImageMedium();
-//        String[] seperated = new String[6];
-//        //split the string based on the delimiter defined in medium.java
-//        seperated = image.split(Medium.DELIMITER);
-//        //add to blank image medium
-//        imageMedium.setApproved(seperated[0].charAt(0));
-//        imageMedium.setName(seperated[1].trim());
-//        imageMedium.setDescription(seperated[2].trim());
-//        imageMedium.setSubmitTime(seperated[3].trim());
-//        imageMedium.setEnd(seperated[4].trim());
-//        imageMedium.setFileName(seperated[5].trim());
-//        return imageMedium;
-//    }
-    public ModelAndView generateMediaCard(Submission image, Model model) {
-        //make a new resource "image" in the server that can the website can pass information into
-        model.addAttribute("image", image);
-        System.out.println(image);
+    /**
+     *
+     * @param submission
+     * @param model
+     * @return
+     */
+    public ModelAndView generateMediaCard(Submission submission, Model model) {
+        //make a new resource "submission" in the server that can the website can pass information into
+        model.addAttribute("submission", submission);
+        System.out.println(submission);
         ModelAndView card = new ModelAndView("mediaCard.html");
         return card;
     }
 
-//    @RequestMapping(path = "/event", method = RequestMethod.GET)
-//    public ModelAndView eventPage(Model model) {
-//        model.addAttribute("event", new EventMedium());
-//        ModelAndView ret = new ModelAndView();
-//        ret.setViewName("event.html");
-//        return ret;
-//    }
-//    @RequestMapping(path = "/upload", method = RequestMethod.GET)
-//    public ModelAndView uploadPage(Model model) {
-//        model.addAttribute("image", new ImageMedium());
-//        ModelAndView ret = new ModelAndView();
-//        ret.setViewName("upload.html");
-//        return ret;
-//    }
-    public ArrayList<Submission> parseSubmissions() {
-        try (Scanner s = new Scanner(new File(DATA_JSON))) {
-            String json = "";
-            while (s.hasNextLine()) {
-                json += s.nextLine();
-            }
-            s.close();
-            return mapper.readValue(json, new TypeReference<ArrayList<Submission>>() {
-            });
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RdtvApplication.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Data.json not found");
-            return null;
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(RdtvApplication.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    /**
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(path = "/upload", method = RequestMethod.GET)
+    public ModelAndView uploadPage(Model model) {
+        model.addAttribute("submission", new Submission());
+        ModelAndView ret = new ModelAndView();
+        ret.setViewName("upload.html");
+        return ret;
     }
 
     /**
      *
-     * @param image
+     * @param submission
      * @param model
-     * @param media
+     * @param file
      * @return
      */
-    public ModelAndView generateMediaCard(Submission image, Model model, MultipartFile media) {
-        model.addAttribute("image", image);
-        model.addAttribute("media", media);
+    public ModelAndView generateMediaCard(Submission submission, Model model, MultipartFile file) {
+        model.addAttribute("submission", submission);
+        model.addAttribute("file", file);
         ModelAndView card = new ModelAndView("mediaCard.html");
         return card;
     }

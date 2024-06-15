@@ -1,34 +1,126 @@
 package jmw.rdtv.Model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author hhwl
  */
 public class Submission {
 
-    private String name;            // event headline
+    public static ObjectMapper mapper = new ObjectMapper();
+
+    private String headline;        // event headline
     private String description;     // event long description
-    private long begin;             // event begin time (unix timestamp)
-    private long end;               // event end time (unix timestamp)
+    private String start;           // event begin time (unix timestamp)
+    private String end;             // event end time (unix timestamp)
     private Media media;            // media object
-    private int priority;           // how often event gets shown by the GUI (keep at 1 for now)
-    private long submitTime;        // when this was submitted
+    private String submitTime;      // when this was submitted
     private boolean approved;       // whether or not this has been approved
+
+    /**
+     *
+     */
+    public Submission() {
+
+    }
+
+    /**
+     *
+     * @param headline
+     * @param description
+     * @param start
+     * @param end
+     * @param submitTime
+     */
+    public Submission(String headline, String description, String start, String end, String submitTime) {
+        this.headline = headline;
+        this.description = description;
+        this.start = start;
+        this.end = end;
+        this.submitTime = submitTime;
+    }
+
+    /**
+     *
+     * @param headline
+     * @param description
+     * @param start
+     * @param end
+     * @param media
+     * @param submitTime
+     * @param approved
+     */
+    public Submission(String headline, String description, String start, String end, Media media, String submitTime, boolean approved) {
+        this.headline = headline;
+        this.description = description;
+        this.start = start;
+        this.end = end;
+        this.media = media;
+        this.submitTime = submitTime;
+        this.approved = approved;
+    }
+
+    /**
+     *
+     * @param fileLocation
+     * @return
+     */
+    public ArrayList<Submission> readSubmissionsFile(String fileLocation) {
+        try {
+            return mapper.readValue(new File(fileLocation), new TypeReference<ArrayList<Submission>>() {
+            });
+        } catch (IOException ex) {
+            Logger.getLogger(Submission.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("submissions file parsing failed!!!");
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param json
+     * @return
+     */
+    public ArrayList<Submission> readSubmissionsJson(String json) {
+        try {
+            return mapper.readValue(json, new TypeReference<ArrayList<Submission>>() {
+            });
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(Submission.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("json parsing failed!!!");
+            return null;
+        }
+    }
+
+    public void writeSubmissionsFile(String fileLocation, ArrayList<Submission> submissionsList) {
+        try {
+            mapper.writeValue(new File(fileLocation), submissionsList);
+        } catch (IOException ex) {
+            Logger.getLogger(Submission.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      *
      * @return
      */
-    public String getName() {
-        return name;
+    public String getHeadline() {
+        return headline;
     }
 
     /**
      *
-     * @param name
+     * @param headline
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setHeadline(String headline) {
+        this.headline = headline;
     }
 
     /**
@@ -51,23 +143,23 @@ public class Submission {
      *
      * @return
      */
-    public long getBegin() {
-        return begin;
+    public String getStart() {
+        return start;
     }
 
     /**
      *
-     * @param begin
+     * @param start
      */
-    public void setBegin(long begin) {
-        this.begin = begin;
+    public void setStart(String start) {
+        this.start = start;
     }
 
     /**
      *
      * @return
      */
-    public long getEnd() {
+    public String getEnd() {
         return end;
     }
 
@@ -75,7 +167,7 @@ public class Submission {
      *
      * @param end
      */
-    public void setEnd(long end) {
+    public void setEnd(String end) {
         this.end = end;
     }
 
@@ -99,42 +191,86 @@ public class Submission {
      *
      * @return
      */
-    public int getPriority() {
-        return priority;
+    public String getSubmitTime() {
+        return submitTime;
     }
 
     /**
      *
-     * @param priority
+     * @param submitTime
      */
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public void setSubmitTime(String submitTime) {
+        this.submitTime = submitTime;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isApproved() {
         return approved;
     }
 
+    /**
+     *
+     * @param approved
+     */
     public void setApproved(boolean approved) {
         this.approved = approved;
     }
 
-    public long getSubmitTime() {
-        return submitTime;
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Submission other = (Submission) obj;
+        if (this.approved != other.approved) {
+            return false;
+        }
+        if (!Objects.equals(this.headline, other.headline)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.start, other.start)) {
+            return false;
+        }
+        if (!Objects.equals(this.end, other.end)) {
+            return false;
+        }
+        if (!Objects.equals(this.submitTime, other.submitTime)) {
+            return false;
+        }
+        return Objects.equals(this.media, other.media);
     }
 
-    public void setSubmitTime(long submitTime) {
-        this.submitTime = submitTime;
-    }
-
-    public Submission(String name, String description, long begin, long end, Media media, int priority, long submitTime, boolean approved) {
-        this.name = name;
-        this.description = description;
-        this.begin = begin;
-        this.end = end;
-        this.media = media;
-        this.priority = priority;
-        this.submitTime = submitTime;
-        this.approved = approved;
+    /**
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 61 * hash + Objects.hashCode(this.headline);
+        hash = 61 * hash + Objects.hashCode(this.description);
+        hash = 61 * hash + Objects.hashCode(this.start);
+        hash = 61 * hash + Objects.hashCode(this.end);
+        hash = 61 * hash + Objects.hashCode(this.media);
+        hash = 61 * hash + Objects.hashCode(this.submitTime);
+        hash = 61 * hash + (this.approved ? 1 : 0);
+        return hash;
     }
 }

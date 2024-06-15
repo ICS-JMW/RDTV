@@ -1,5 +1,9 @@
 package jmw.rdtv.Medium;
 
+/**
+ *
+ * @author hhwl
+ */
 public class EventMedium extends Medium {
 
     String name;
@@ -9,55 +13,107 @@ public class EventMedium extends Medium {
     String end;
     char approved = 'u'; // u = unapproved, d = denied, a = approved
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     *
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSubmitTime() {
         return submitTime;
     }
 
+    /**
+     *
+     * @param submitTime
+     */
     public void setSubmitTime(String submitTime) {
         this.submitTime = submitTime;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEnd() {
         return end;
     }
 
+    /**
+     *
+     * @param end
+     */
     public void setEnd(String end) {
         this.end = end;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return approved + DELIMITER + " " + name + DELIMITER + " " + description + DELIMITER + " " + begin + DELIMITER + " " + end + DELIMITER + " " + submitTime;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getBegin() {
         return begin;
     }
 
+    /**
+     *
+     * @param begin
+     */
     public void setBegin(String begin) {
         this.begin = begin;
     }
 
+    /**
+     *
+     * @return
+     */
     public char getApproved() {
         return approved;
     }
 
+    /**
+     *
+     * @param approved
+     */
     public void setApproved(char approved) {
         this.approved = approved;
     }

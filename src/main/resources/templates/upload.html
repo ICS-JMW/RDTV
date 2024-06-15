@@ -8,10 +8,11 @@
 
     <body>
         <h1>Media</h1>
-        <form action="#" th:action="@{/upload}" th:object="${image}" method="post" enctype="multipart/form-data">
-            <p>Title: <input type="text" th:field="*{name}" /></p>
+        <form action="#" th:action="@{/upload}" th:object="${submission}" method="post" enctype="multipart/form-data">
+            <p>Title: <input type="text" th:field="*{headline}" /></p>
             <p>Description: <input type="text" th:field="*{description}" /></p>
-            <p>Event time: <input type="datetime-local" th:field="*{end}" /></p>
+            <p>Event end time: <input type="datetime-local" th:field="*{start}" /></p>
+            <p>Event start time: <input type="datetime-local" th:field="*{end}" /></p>
             <p><input type="text" id="timeStorage" th:field="*{submitTime}" readonly
                       style="visibility: hidden;position: absolute;" /></p>
             <script>
