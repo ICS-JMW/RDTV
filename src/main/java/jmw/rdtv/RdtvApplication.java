@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +34,7 @@ import jmw.rdtv.Model.Submission;
 
 /**
  *
- * @author hhwl
+ * @author Johnathan, William
  */
 @SpringBootApplication
 @RestController
@@ -73,8 +72,8 @@ public class RdtvApplication {
      * can be uploaded, ranging from images to weird things things like
      * executables.
      *
-     * @param media contains information on the media. Passed by the website
-     * (upload.html)
+     * @param submission contains information on the media. Passed by the
+     * website (upload.html)
      * @param file multipartfile containing image/video/exe etc.
      * @param model idk what this does
      * @return currently retursn to the upload webpage, perhaps in the future an
@@ -138,29 +137,6 @@ public class RdtvApplication {
 //        }
 //        return eventPage(model);
 //    }
-    /**
-     * @param event
-     * @param model
-     * @return
-     */
-    @RequestMapping(path = "/event", method = RequestMethod.POST)
-    public ModelAndView addEvent(@ModelAttribute EventMedium event, Model model) {
-        File eventLog = new File(LOGGING_LOCATION + "/storage/events.bf");
-        try {
-            //get number of lines in event file
-            long lines = Files.lines(Paths.get(eventLog.getAbsolutePath())).count();
-            //make filewriter that appends to the log
-            //append the current event to the file
-            //write to disk
-        } catch (Exception e) {
-            try (FileWriter logger = new FileWriter(eventLog, true)) {
-                logger.append(event + "\n");
-            }
-        } catch (IOException e) {
-        }
-        return eventPage(model);
-    }
-
     // @RequestMapping(path = "/getImages/{id}", method = RequestMethod.GET)
     // public ResponseEntity<InputStreamResource> getImageDynamicType(long id) {
     //     InputStream in = getClass.getResourceAsStream(STORAGE_LOCATION + "/storage/");
@@ -168,7 +144,7 @@ public class RdtvApplication {
     //             .body(new InputStreamResource(in));
     // }
     /**
-     * Not implemented yet, will probably be multiple seperate methods.
+     * Not implemented yet, will probably be multiple separate methods.
      *
      * ======= /**
      *
@@ -241,28 +217,27 @@ public class RdtvApplication {
         return ret;
     }
 
-    /**
-     * inverse of toString basically
-     *
-     * @param image stringified version of theimage
-     * @return imagemedium based on string provided.
-     */
-    public ImageMedium parseImage(String image) {
-        ImageMedium imageMedium = new ImageMedium();
-        String[] seperated = new String[6];
-        //split the string based on the delimiter defined in medium.java
-        seperated = image.split(Medium.DELIMITER);
-        //add to blank image medium
-        imageMedium.setApproved(seperated[0].charAt(0));
-        imageMedium.setName(seperated[1].trim());
-        imageMedium.setDescription(seperated[2].trim());
-        imageMedium.setSubmitTime(seperated[3].trim());
-        imageMedium.setEnd(seperated[4].trim());
-        imageMedium.setFileName(seperated[5].trim());
-        return imageMedium;
-    }
-
-    public ModelAndView generateMediaCard(ImageMedium image, Model model) {
+//    /**
+//     * inverse of toString basically
+//     *
+//     * @param image stringified version of theimage
+//     * @return imagemedium based on string provided.
+//     */
+//    public ImageMedium parseImage(String image) {
+//        ImageMedium imageMedium = new ImageMedium();
+//        String[] seperated = new String[6];
+//        //split the string based on the delimiter defined in medium.java
+//        seperated = image.split(Medium.DELIMITER);
+//        //add to blank image medium
+//        imageMedium.setApproved(seperated[0].charAt(0));
+//        imageMedium.setName(seperated[1].trim());
+//        imageMedium.setDescription(seperated[2].trim());
+//        imageMedium.setSubmitTime(seperated[3].trim());
+//        imageMedium.setEnd(seperated[4].trim());
+//        imageMedium.setFileName(seperated[5].trim());
+//        return imageMedium;
+//    }
+    public ModelAndView generateMediaCard(Submission image, Model model) {
         //make a new resource "image" in the server that can the website can pass information into
         model.addAttribute("image", image);
         System.out.println(image);
@@ -270,36 +245,19 @@ public class RdtvApplication {
         return card;
     }
 
-    @RequestMapping(path = "/event", method = RequestMethod.GET)
-    public ModelAndView eventPage(Model model) {
-        model.addAttribute("event", new EventMedium());
-        ModelAndView ret = new ModelAndView();
-        ret.setViewName("event.html");
-        return ret;
-    }
-
-    @RequestMapping(path = "/upload", method = RequestMethod.GET)
-    public ModelAndView uploadPage(Model model) {
-        model.addAttribute("image", new ImageMedium());
-        ModelAndView ret = new ModelAndView();
-        ret.setViewName("upload.html");
-        return ret;
-    }
-
-//    /**
-//     *
-//     * @param image
-//     * @return
-//     */
-//    public ImageMedium parseImage(String image) {
-//        ImageMedium imageMedium = new ImageMedium();
-//        String[] seperated = image.split(Medium.DELIMITER);
-//        imageMedium.setApproved(seperated[0].charAt(0));
-//        imageMedium.setName(seperated[1].trim());
-//        imageMedium.setDescription(seperated[2].trim());
-//        imageMedium.setSubmitTime(seperated[3].trim());
-//        imageMedium.setEnd(seperated[4].trim());
-//        return imageMedium;
+//    @RequestMapping(path = "/event", method = RequestMethod.GET)
+//    public ModelAndView eventPage(Model model) {
+//        model.addAttribute("event", new EventMedium());
+//        ModelAndView ret = new ModelAndView();
+//        ret.setViewName("event.html");
+//        return ret;
+//    }
+//    @RequestMapping(path = "/upload", method = RequestMethod.GET)
+//    public ModelAndView uploadPage(Model model) {
+//        model.addAttribute("image", new ImageMedium());
+//        ModelAndView ret = new ModelAndView();
+//        ret.setViewName("upload.html");
+//        return ret;
 //    }
     public ArrayList<Submission> parseSubmissions() {
         try (Scanner s = new Scanner(new File(DATA_JSON))) {
@@ -333,12 +291,4 @@ public class RdtvApplication {
         ModelAndView card = new ModelAndView("mediaCard.html");
         return card;
     }
-
-//    @RequestMapping(path = "/upload", method = RequestMethod.GET)
-//    public ModelAndView uploadPage(Model model) {
-//        model.addAttribute("image", new ImageMedium());
-//        ModelAndView ret = new ModelAndView();
-//        ret.setViewName("upload.html");
-//        return ret;
-//    }
 }
