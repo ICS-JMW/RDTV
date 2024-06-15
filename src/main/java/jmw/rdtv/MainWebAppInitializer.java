@@ -13,16 +13,30 @@ import jakarta.servlet.ServletRegistration;
 
 //my child will not copy code from the internet
 //child in question:
+
+/**
+ *
+ * @author hhwl
+ */
 public class MainWebAppInitializer implements WebApplicationInitializer {
 
     private static final String TMP_FOLDER = "/tmp";
     private static final int MAX_UPLOAD_SIZE = 8 * 1024 * 1024;
 
+    /**
+     *
+     * @return
+     */
     @Bean
     public StandardServletMultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
     }
 
+    /**
+     *
+     * @param sc
+     * @throws ServletException
+     */
     @Override
     public void onStartup(ServletContext sc) throws ServletException {
         ServletRegistration.Dynamic appServlet = sc.addServlet("mvc", new DispatcherServlet(

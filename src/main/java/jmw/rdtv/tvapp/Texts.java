@@ -24,7 +24,12 @@ public class Texts extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void present(Submission event) {
+    /**
+     * Presents a submission entry
+     *
+     * @param entry
+     */
+    public void present(Submission entry) {
 
     }
 
@@ -59,20 +64,12 @@ public class Texts extends javax.swing.JFrame {
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Texts.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Texts.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Texts.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Texts.class.getName()).log(Level.SEVERE, null, ex);
         }
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Texts().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Texts().setVisible(true);
         });
     }
 

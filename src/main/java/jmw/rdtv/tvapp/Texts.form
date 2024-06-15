@@ -35,11 +35,6 @@
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
   <SubComponents>
     <Component class="jmw.rdtv.tvapp.TextsPanel" name="textsPanel1">
-      <Properties>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[1678, 300]"/>
-        </Property>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

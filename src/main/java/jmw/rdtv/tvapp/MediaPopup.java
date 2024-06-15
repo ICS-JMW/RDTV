@@ -4,28 +4,26 @@
  */
 package jmw.rdtv.tvapp;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 /**
+ * Class for displaying submission media
  *
  * @author hhwl
  */
 public class MediaPopup extends javax.swing.JFrame {
+
+    EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
 
     /**
      * Creates new form NewJFrame
      */
     public MediaPopup() {
         initComponents();
-        EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
         // set up vlcj
         add(vlcj);
         setVisible(true);
-        vlcj.mediaPlayer().media().play("/home/hhwl/Downloads/RDT_20240528_155706.mp4");
+        vlcj.mediaPlayer().media().play("./b-roll.mp4");
         vlcj.mediaPlayer().controls().setRepeat(true);
         this.setSize(640, 480);
     }
@@ -44,10 +42,19 @@ public class MediaPopup extends javax.swing.JFrame {
         setBackground(new java.awt.Color(0, 0, 0));
         setUndecorated(true);
         setType(java.awt.Window.Type.UTILITY);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    // release vlcj on window close
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        vlcj.release();
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

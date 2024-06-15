@@ -1,52 +1,38 @@
-
 package jmw.rdtv.tvapp;
 
 import jmw.rdtv.Model.Submission;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
 import java.util.*;
-import javax.swing.*;
-import java.awt.image.*;
-import javax.imageio.*;
-import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 /**
+ * Main windows class
  *
  * @author hhwl
  */
 public final class GUI extends javax.swing.JFrame {
 
-    private static int current = 1;
-    private static int submissions = 0;
-    public static ArrayList<Submission> media = new ArrayList();
-    private ArrayList<BufferedImage> images = new ArrayList();
-    private int msPassed = 0;
-//    private Timer timer;
-    private ActionListener display;
-    private int runtime = 300;
+    public static ArrayList<Submission> Submissions = new ArrayList(); // list of submissions
 
-    private EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
-    int realWidth = 1920;
-    int realHeight = 1080;
+    // Max's code
+//    private static int current = 1; // current submission index
+//    private int msPassed = 0;
+//    private Timer timer;
+//    private ActionListener display;
+//    private int runtime = 300;
+    // video player component
+    private final EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
 
     /**
      * Creates new form GUI
      */
     public GUI() {
-        initComponents(); // auto create components
+        // netbeans setup components
+        initComponents();
         // set up vlcj
         add(vlcj);
         setVisible(true);
         vlcj.mediaPlayer().media().play("./b-roll.mp4");
         vlcj.mediaPlayer().controls().setRepeat(true);
-
-        realWidth = vlcj.getWidth();
-        realHeight = vlcj.getHeight();
-
-        System.out.println(realWidth);
-        System.out.println(realHeight);
 
         Texts texts = new Texts();
         texts.setVisible(true);
@@ -80,7 +66,7 @@ public final class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("RDTV Official");
         setMinimumSize(new java.awt.Dimension(1920, 1080));
         setPreferredSize(new java.awt.Dimension(1920, 1080));
@@ -94,46 +80,11 @@ public final class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // close vlcj when window closes
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         vlcj.release();
-        System.exit(0);
+//        System.exit(0);
     }//GEN-LAST:event_formWindowClosing
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    /**
-     * @return the submissions
-     */
-    public static int getSubmissions() {
-        return submissions;
-    }
-
-//    public ArrayList<Submission> readMedia() {
-//        Scanner sc;
-//        ArrayList<Submission> mList = new ArrayList();
-//
-//        try {
-//            sc = new Scanner(new File("items.json"));
-//            while (sc.hasNextLine() && !sc.nextLine().equals("}]")) {
-//                Submission m = new Submission();
-//                m.setName(sc.nextLine());
-//                m.setName(m.getName().substring(13, m.getName().length() - 2));
-//                m.setDescription(sc.nextLine());
-//                m.setDescription(m.getDescription().substring(20, m.getDescription().length() - 2));
-//                m.setBegin(sc.nextLine());
-//                m.setEnd(sc.nextLine());
-//                m.setFileName(sc.nextLine());
-//                m.setFileName(m.getFileName().substring(17, m.getFileName().length() - 1));
-//                images.add(ImageIO.read(new File("media/" + m.getFileName())));
-//                m.setPriority(runtime);
-//                runtime += 3000;
-//                mList.add(m);
-//
-//                submissions++;
-//            }
-//        } catch (IOException e) {
-//            System.out.println("broken");
-//        }
-//
-//        return mList;
-//    }
 }
