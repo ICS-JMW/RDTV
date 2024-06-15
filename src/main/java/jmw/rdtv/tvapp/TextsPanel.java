@@ -5,15 +5,21 @@
 package jmw.rdtv.tvapp;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JScrollPane;
-import javax.swing.text.DefaultCaret;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -29,11 +35,13 @@ public class TextsPanel extends javax.swing.JPanel {
      */
     public TextsPanel() {
         initComponents();
-        // read logos
+        // read logo and load font
         try {
             rdtvLogo = ImageIO.read(new File("./logos/rdtvLogo.png"));
             csdLogo = ImageIO.read(new File("./logos/csdLogo.png"));
-        } catch (IOException ex) {
+            InputStream is = new BufferedInputStream(Files.newInputStream(Paths.get("./VCR OSD Mono.ttf")));
+            subs.setFont(Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 46));
+        } catch (IOException | FontFormatException ex) {
             Logger.getLogger(TextsPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -50,6 +58,22 @@ public class TextsPanel extends javax.swing.JPanel {
         g.drawImage(csdLogo, 0, 100, 200, 200, this);
     }
 
+    public JLabel getHeadline() {
+        return headline;
+    }
+
+    public void setHeadline(JLabel headline) {
+        this.headline = headline;
+    }
+
+    public JTextArea getSubs() {
+        return subs;
+    }
+
+    public void setSubs(JTextArea subs) {
+        this.subs = subs;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +84,7 @@ public class TextsPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         headline = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scroller = new javax.swing.JScrollPane();
         subs = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -73,16 +97,16 @@ public class TextsPanel extends javax.swing.JPanel {
         headline.setText("Breaking: Spy Cows Explode In D.C.");
         headline.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
-        jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jScrollPane1.setForeground(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scroller.setBackground(new java.awt.Color(0, 0, 0));
+        scroller.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scroller.setForeground(new java.awt.Color(0, 0, 0));
+        scroller.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scroller.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         subs.setEditable(false);
         subs.setBackground(new java.awt.Color(0, 0, 0));
         subs.setColumns(20);
-        subs.setFont(new java.awt.Font("VCR OSD Mono", 0, 44)); // NOI18N
+        subs.setFont(new java.awt.Font("VCR OSD Mono", 0, 46)); // NOI18N
         subs.setForeground(new java.awt.Color(255, 255, 255));
         subs.setRows(5);
         subs.setText("This line can hold 64 characters!!!\nThis line can hold 64 characters!!!");
@@ -91,7 +115,7 @@ public class TextsPanel extends javax.swing.JPanel {
         subs.setFocusable(false);
         subs.setName(""); // NOI18N
         subs.setVerifyInputWhenFocusTarget(false);
-        jScrollPane1.setViewportView(subs);
+        scroller.setViewportView(subs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -101,12 +125,12 @@ public class TextsPanel extends javax.swing.JPanel {
                 .addGap(236, 236, 236)
                 .addComponent(headline)
                 .addGap(0, 319, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(scroller, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scroller, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
                 .addComponent(headline)
                 .addContainerGap(60, Short.MAX_VALUE))
@@ -115,7 +139,7 @@ public class TextsPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel headline;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane scroller;
     private javax.swing.JTextArea subs;
     // End of variables declaration//GEN-END:variables
 }

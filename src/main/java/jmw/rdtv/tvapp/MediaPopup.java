@@ -4,6 +4,14 @@
  */
 package jmw.rdtv.tvapp;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 /**
@@ -14,18 +22,48 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 public class MediaPopup extends javax.swing.JFrame {
 
     EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
+    JLabel imageContainer = new JLabel();
+    private static final int WIDTH = 640;
+    private static final int HEIGHT = 480;
 
     /**
      * Creates new form NewJFrame
      */
     public MediaPopup() {
         initComponents();
-        // set up vlcj
-        add(vlcj);
         setVisible(true);
-        vlcj.mediaPlayer().media().play("./b-roll.mp4");
+        this.setSize(WIDTH, HEIGHT);
+    }
+
+    public void setUpVlcj(String fileLocation) {
+        removeAll();
+        add(vlcj);
+        vlcj.mediaPlayer().media().play(fileLocation);
         vlcj.mediaPlayer().controls().setRepeat(true);
-        this.setSize(640, 480);
+        revalidate();
+        repaint();
+    }
+
+    public void setUpImages() {
+        removeAll();
+        add(imageContainer);
+        revalidate();
+        repaint();
+    }
+
+    public void displayImage(String fileLocation) {
+        try {
+            Image image = ImageIO.read(new File(fileLocation));
+            int imageWidth = image.getWidth(rootPane);
+            int imageHeight = image.getHeight(rootPane);
+            double factor = 1;
+            if (imageWidth / (imageHeight + .0) > WIDTH / (HEIGHT + .0)) {
+                factor = WIDTH / imageWidth;
+            }
+            imageContainer.setIcon(new ImageIcon(image.getScaledInstance((int) (WIDTH * factor), (int) (HEIGHT * factor), Image.SCALE_FAST)));
+        } catch (IOException ex) {
+            Logger.getLogger(MediaPopup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

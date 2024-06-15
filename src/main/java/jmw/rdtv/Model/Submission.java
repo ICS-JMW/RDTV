@@ -14,7 +14,8 @@ import java.util.logging.Logger;
  */
 public class Submission {
 
-    public static ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper = new ObjectMapper();
+    public static String DATA_LOC = "./data.json";
 
     private String headline;        // event headline
     private String description;     // event long description
@@ -69,12 +70,11 @@ public class Submission {
 
     /**
      *
-     * @param fileLocation
      * @return
      */
-    public ArrayList<Submission> readSubmissionsFile(String fileLocation) {
+    public static ArrayList<Submission> readSubmissionsFile() {
         try {
-            return mapper.readValue(new File(fileLocation), new TypeReference<ArrayList<Submission>>() {
+            return mapper.readValue(new File(DATA_LOC), new TypeReference<ArrayList<Submission>>() {
             });
         } catch (IOException ex) {
             Logger.getLogger(Submission.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,7 +88,7 @@ public class Submission {
      * @param json
      * @return
      */
-    public ArrayList<Submission> readSubmissionsJson(String json) {
+    public static ArrayList<Submission> readSubmissionsJson(String json) {
         try {
             return mapper.readValue(json, new TypeReference<ArrayList<Submission>>() {
             });
@@ -99,9 +99,9 @@ public class Submission {
         }
     }
 
-    public void writeSubmissionsFile(String fileLocation, ArrayList<Submission> submissionsList) {
+    public static void writeSubmissionsFile(ArrayList<Submission> submissionsList) {
         try {
-            mapper.writeValue(new File(fileLocation), submissionsList);
+            mapper.writeValue(new File(DATA_LOC), submissionsList);
         } catch (IOException ex) {
             Logger.getLogger(Submission.class.getName()).log(Level.SEVERE, null, ex);
         }
