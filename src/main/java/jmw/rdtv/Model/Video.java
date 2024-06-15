@@ -1,11 +1,14 @@
 package jmw.rdtv.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author hhwl
  */
 public class Video extends Media {
 
+    @JsonProperty("location")
     String location;
 
     /**
@@ -14,16 +17,6 @@ public class Video extends Media {
      */
     public String getLocation() {
         return location;
-    }
-
-    /**
-     *
-     * @param location
-     * @param type
-     */
-    public Video(String location, String type) {
-        this.location = location;
-        this.type = type;
     }
 
 }

@@ -14,17 +14,12 @@ public final class GUI extends javax.swing.JFrame {
     /**
      *
      */
-    public static ArrayList<Submission> Submissions = new ArrayList(); // list of submissions
-
-    // Max's code
-//    private static int current = 1; // current submission index
-//    private int msPassed = 0;
-//    private Timer timer;
-//    private ActionListener display;
-//    private int runtime = 300;
-    // video player component
+    public static ArrayList<Submission> data = new ArrayList(); // list of submissions
+    private final Texts texts = new Texts();
+    private final MediaPopup popup = new MediaPopup();
     private final EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
 
+    // video player component
     /**
      * Creates new form GUI
      */
@@ -36,11 +31,10 @@ public final class GUI extends javax.swing.JFrame {
         setVisible(true);
         vlcj.mediaPlayer().media().play("./b-roll.mp4");
         vlcj.mediaPlayer().controls().setRepeat(true);
+        data = Submission.readSubmissionsFile();
+        System.out.println(data);
 
-        Texts texts = new Texts();
         texts.setVisible(true);
-
-        MediaPopup popup = new MediaPopup();
         popup.setVisible(true);
 
 //        media = readMedia();
@@ -85,7 +79,11 @@ public final class GUI extends javax.swing.JFrame {
 
     // close vlcj when window closes
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        evt.getID(); // actually does nothing, I just don't like seeing warnings
         vlcj.release();
+        texts.dispose();
+        popup.dispose();
+        popup.vlcj.release();
     }//GEN-LAST:event_formWindowClosing
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
