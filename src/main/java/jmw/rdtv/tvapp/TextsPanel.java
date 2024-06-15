@@ -27,8 +27,8 @@ import javax.swing.JTextArea;
  */
 public class TextsPanel extends javax.swing.JPanel {
 
-    BufferedImage rdtvLogo;
-    BufferedImage csdLogo;
+    private BufferedImage rdtvLogo;
+    private BufferedImage csdLogo;
 
     /**
      * Creates new form TextsPanel

@@ -21,10 +21,10 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
  */
 public class MediaPopup extends javax.swing.JFrame {
 
-    EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
-    JLabel imageContainer = new JLabel();
-    private static final int WIDTH = 640;
-    private static final int HEIGHT = 480;
+    private EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
+    private JLabel imageContainer = new JLabel();
+    private static final int WIN_WIDTH = 640;
+    private static final int WIN_HEIGHT = 480;
 
     /**
      * Creates new form NewJFrame
@@ -32,7 +32,7 @@ public class MediaPopup extends javax.swing.JFrame {
     public MediaPopup() {
         initComponents();
         setVisible(true);
-        this.setSize(WIDTH, HEIGHT);
+        this.setSize(WIN_WIDTH, WIN_HEIGHT);
     }
 
     public void setUpVlcj(String fileLocation) {
@@ -56,14 +56,32 @@ public class MediaPopup extends javax.swing.JFrame {
             Image image = ImageIO.read(new File(fileLocation));
             int imageWidth = image.getWidth(rootPane);
             int imageHeight = image.getHeight(rootPane);
-            double factor = 1;
-            if (imageWidth / (imageHeight + .0) > WIDTH / (HEIGHT + .0)) {
-                factor = WIDTH / imageWidth;
+            double factor;
+            if (imageWidth / (imageHeight + .0) > WIN_WIDTH / (WIN_HEIGHT + .0)) {
+                factor = imageWidth / WIN_WIDTH;
+            } else {
+                factor = imageHeight / WIN_HEIGHT;
             }
-            imageContainer.setIcon(new ImageIcon(image.getScaledInstance((int) (WIDTH * factor), (int) (HEIGHT * factor), Image.SCALE_FAST)));
+            imageContainer.setIcon(new ImageIcon(image.getScaledInstance((int) (WIN_WIDTH * factor), (int) (WIN_HEIGHT * factor), Image.SCALE_FAST)));
         } catch (IOException ex) {
             Logger.getLogger(MediaPopup.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public EmbeddedMediaPlayerComponent getVlcj() {
+        return vlcj;
+    }
+
+    public void setVlcj(EmbeddedMediaPlayerComponent vlcj) {
+        this.vlcj = vlcj;
+    }
+
+    public JLabel getImageContainer() {
+        return imageContainer;
+    }
+
+    public void setImageContainer(JLabel imageContainer) {
+        this.imageContainer = imageContainer;
     }
 
     /**
@@ -91,6 +109,7 @@ public class MediaPopup extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     // release vlcj on window close
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        evt.getID();
         vlcj.release();
     }//GEN-LAST:event_formWindowClosing
 

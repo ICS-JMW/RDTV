@@ -62,6 +62,14 @@ public class Texts extends javax.swing.JFrame {
         });
     }
 
+    public TextsPanel getPanel() {
+        return panel;
+    }
+
+    public void setPanel(TextsPanel panel) {
+        this.panel = panel;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private jmw.rdtv.tvapp.TextsPanel panel;
     // End of variables declaration//GEN-END:variables

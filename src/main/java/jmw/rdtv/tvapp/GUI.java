@@ -1,9 +1,14 @@
 package jmw.rdtv.tvapp;
 
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Timer;
+import jmw.rdtv.Model.ImageBin;
 import jmw.rdtv.Model.Submission;
+import jmw.rdtv.Model.Video;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 /**
@@ -15,31 +20,33 @@ public final class GUI extends javax.swing.JFrame {
 
     // constants
     public static final int LINE_DELAY = 2000;
+    public static final int LINE_LENGTH = 64;
+    public static final int SCREENSAVER_DELAY = 2 * 60 * 1000;
 
-    // singletons
-    private static final ArrayList<Submission> data = Submission.readSubmissionsFile(); // list of submissions
-    private static final Texts texts = new Texts();
-    private static final MediaPopup popup = new MediaPopup();
-    private static final EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
-    private static final Timer lineTimer = new Timer(LINE_DELAY, new ActionListener() {
+    // objects
+    private final ArrayList<Submission> data = Submission.readSubmissionsFile(); // list of submissions
+    private final Texts texts = new Texts();
+    private final MediaPopup popup = new MediaPopup();
+    private final EmbeddedMediaPlayerComponent vlcj = new EmbeddedMediaPlayerComponent();
+    private final Timer lineTimer = new Timer(LINE_DELAY, (ActionEvent e) -> {
         lineHandle();
     });
-    private static final Timer videoTimer = new Timer(10000, new ActionListener() { // dummy delay value
+    private final Timer videoTimer = new Timer(10000, (ActionEvent e) -> { // dummy delay
         videoEndHandle();
     });
-    private static final Timer imageTimer = new Timer(10000, new ActionListener() { // dummy delay value
+    private final Timer imageTimer = new Timer(10000, (ActionEvent e) -> { // dummy delay
         imageHandle();
     });
-    private static final Timer screensaverTimer = new Timer(2 * 60 * 1000, new ActionListener() {
-        endScreensaver();
+    private final Timer screensaverTimer = new Timer(SCREENSAVER_DELAY, (ActionEvent e) -> {
+        videoEndHandle();
     });
 
     // mutables
-    int currentSubmission = 0;
+    int submissionIndex = -1;
+    int imageIndex = -1;
+    int descBlock = -1;
+    int numDescBlocks = 0;
 
-    /**
-     * Creates new form GUI
-     */
     public GUI() {
         // netbeans setup components
         initComponents();
@@ -53,46 +60,88 @@ public final class GUI extends javax.swing.JFrame {
         popup.setVisible(true);
         // set up timers
         lineTimer.setRepeats(true);
-        mediaTimer.setRepeats(true);
-        presentSubmission(currentSubmission);
+        videoTimer.setRepeats(true);
+        imageTimer.setRepeats(true);
+
+        presentSubmission();
     }
 
-    public void presentSubmission(int index) {
-        Submission sm = data.get(index);
+    public void presentSubmission() {
+        submissionIndex++;
+        if (submissionIndex >= data.size()) {
+            startScreensaver();
+            return;
+        }
+        Submission sm = data.get(submissionIndex);
+        texts.getPanel().getHeadline().setText(sm.getHeadline());
+        numDescBlocks = (int) Math.ceil(sm.getDescription().length() / (LINE_LENGTH + .0));
+        lineHandle();
+        lineTimer.start();
         if (sm.getMedia() instanceof Video) {
-
-            videoTimer.setDelay();
-        } else if (sm.getMedia() instanceof Images) {
-
+            Video video = (Video) (sm.getMedia());
+            popup.setUpVlcj(video.getLocation());
+            videoTimer.setDelay((int) popup.getVlcj().mediaPlayer().media().info().duration());
+            videoTimer.start();
+        } else if (sm.getMedia() instanceof ImageBin) {
+            ImageBin images = (ImageBin) (sm.getMedia());
+            popup.setUpImages();
+            imageHandle();
+            imageTimer.setDelay(numDescBlocks * LINE_DELAY / images.getImages().size());
+            imageTimer.start();
         }
     }
 
-    public void prepareVideo(String fileLocation) {
-
-    }
-
     public void lineHandle() {
-
+        descBlock++;
+        String desc = data.get(submissionIndex).getDescription();
+        if (descBlock >= numDescBlocks) {
+            lineTimer.stop();
+            imageTimer.stop();
+            videoTimer.stop();
+            descBlock = -1;
+            presentSubmission();
+            return;
+        }
+        String subDesc = desc.substring(descBlock * LINE_LENGTH, descBlock * (LINE_LENGTH + 1)) + "\n";
+        if (descBlock + 1 < numDescBlocks) {
+            subDesc += desc.substring(descBlock * (LINE_LENGTH + 1), descBlock * (LINE_LENGTH + 2));
+        }
+        texts.getPanel().getSubs().setText(subDesc);
     }
 
     public void videoEndHandle() {
-
+        videoTimer.stop();
     }
 
     public void imageHandle() {
-
+        imageIndex++;
+        ImageBin images = (ImageBin) (data.get(submissionIndex).getMedia());
+        if (imageIndex >= images.getImages().size()) {
+            imageTimer.stop();
+            imageIndex = -1;
+        } else {
+            popup.displayImage(images.getImages().get(imageIndex));
+        }
     }
 
     public void startScreensaver() {
-        Runtime.getRuntime().exec("xscreensaver-command -activate");
-        screensaverTimer.start();
+        try {
+            Runtime.getRuntime().exec("xscreensaver-command -activate");
+            screensaverTimer.start();
+        } catch (IOException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void endScreensaver() {
-        Runtime.getRuntime().exec("xscreensaver-command -deactivate");
-        screensaverTimer.stop();
-        currentSubmission = 0;
-        presentSubmission(currentSubmission);
+        try {
+            Runtime.getRuntime().exec("xscreensaver-command -deactivate");
+            screensaverTimer.stop();
+            submissionIndex = -1;
+            presentSubmission();
+        } catch (IOException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -124,7 +173,7 @@ public final class GUI extends javax.swing.JFrame {
         vlcj.release();
         texts.dispose();
         popup.dispose();
-        popup.vlcj.release();
+        popup.getVlcj().release();
     }//GEN-LAST:event_formWindowClosing
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
