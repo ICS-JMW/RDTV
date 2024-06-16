@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 @JsonSubTypes({
-    @Type(value = ImageBin.class, name = "images"),
+    @Type(value = ImageBin.class, name = "imageBin"),
     @Type(value = Video.class, name = "video")})
 public abstract class Media {
 
@@ -25,20 +25,4 @@ public abstract class Media {
      *
      */
     public String type;
-
-    /**
-     *
-     * @return
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     *
-     * @param type
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
 }

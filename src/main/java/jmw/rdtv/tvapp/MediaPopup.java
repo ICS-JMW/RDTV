@@ -4,6 +4,8 @@
  */
 package jmw.rdtv.tvapp;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +34,9 @@ public class MediaPopup extends javax.swing.JFrame {
     public MediaPopup() {
         initComponents();
         setVisible(true);
-        this.setSize(WIN_WIDTH, WIN_HEIGHT);
+        setSize(WIN_WIDTH, WIN_HEIGHT);
+        setBackground(Color.black);
+        imageContainer.setBackground(Color.black);
     }
 
     public void setUpVlcj(String fileLocation) {
@@ -46,7 +50,7 @@ public class MediaPopup extends javax.swing.JFrame {
 
     public void setUpImages() {
         remove(vlcj);
-        add(imageContainer);
+        add(imageContainer, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
@@ -59,12 +63,17 @@ public class MediaPopup extends javax.swing.JFrame {
             // resize the image to fit in popup while preserving aspect ration
             double factor;
             if (imageWidth / (imageHeight + .0) > WIN_WIDTH / (WIN_HEIGHT + .0)) {
-                factor = imageWidth / WIN_WIDTH;
+                factor = WIN_WIDTH / (imageWidth + .0);
             } else {
-                factor = imageHeight / WIN_HEIGHT;
+                factor = WIN_HEIGHT / (imageHeight + .0);
             }
+            int newWidth = (int) (imageWidth * factor);
+            int newHeight = (int) (imageHeight * factor);
             // display image
-            imageContainer.setIcon(new ImageIcon(image.getScaledInstance((int) (WIN_WIDTH * factor), (int) (WIN_HEIGHT * factor), Image.SCALE_FAST)));
+            imageContainer.setIcon(new ImageIcon(image.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST)));
+            pack();
+            revalidate();
+            repaint();
         } catch (IOException ex) {
             Logger.getLogger(MediaPopup.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -105,7 +114,6 @@ public class MediaPopup extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
