@@ -108,6 +108,7 @@ public class RdtvApplication {
             submission.setStart(Instant.parse(submission.getStart() + tweak).getEpochSecond() + "");
             submission.setEnd(Instant.parse(submission.getEnd() + tweak).getEpochSecond() + "");
             submission.setApproved(false);
+            submission.setId(lines);
             ImageBin temp = new ImageBin();
             temp.setType(contentType.substring(0, contentType.lastIndexOf("/") - 1));
             temp.addImage(img.getPath());

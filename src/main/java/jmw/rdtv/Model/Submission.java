@@ -24,6 +24,7 @@ public class Submission {
     private Media media;            // media object
     private String submitTime;      // when this was submitted
     private boolean approved;       // whether or not this has been approved
+    private long id;                // submission number, only used for adminpanel
 
     /**
      *
@@ -74,8 +75,12 @@ public class Submission {
      */
     public static ArrayList<Submission> readSubmissionsFile() {
         try {
-            return mapper.readValue(new File(DATA_LOC), new TypeReference<ArrayList<Submission>>() {
+
+            ArrayList<Submission> temp = mapper.readValue(new File(DATA_LOC), new TypeReference<ArrayList<Submission>>() {
             });
+            //prevents returning null
+            temp = temp != null ? temp : new ArrayList<>();
+            return temp;
         } catch (IOException ex) {
             Logger.getLogger(Submission.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("submissions file parsing failed!!!");
@@ -272,5 +277,13 @@ public class Submission {
         hash = 61 * hash + Objects.hashCode(this.submitTime);
         hash = 61 * hash + (this.approved ? 1 : 0);
         return hash;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
