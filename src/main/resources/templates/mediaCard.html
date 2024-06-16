@@ -1,25 +1,30 @@
 <html xmlns:th="https://www.thymeleaf.org">
 
 <body>
-    <div class="mediaCard" style="display: flex;flex-direction: row;">
-        <div class="mediaContainer" th:switch="${submission.media.type}">
-            <img th:case="'image'" th:src="@{${submission.media.images[0]}}" style="max-width: 400px; width: 100%;">
-            <video th:case="'video'" th:src="@{${submission.media.images[0]}}" style="max-width: 400px; width: 100%;">
-        </div>
-        <div class="infoContainer">
-            <h2 th:text="${submission.headline}"></h2>
-            <p th:text="${submission.description}"></p>
-            <p th:text="${submission.start}"></p>
-            <p th:text="${submission.end}"></p>
-            <p th:text="${submission.submitTime}"></p>
-        </div>
-        <div class="managementButtons">
-            <form action="#" th:action="@{/event}" th:object="${event}" method="post">
-                <button class="Accept" onclick="">Accept</button>
-            </form>
-            <form action="#" th:action="@{/event}" th:object="${event}" method="post">
-                <button class="Deny">Deny</button>
-            </form>
+    <div th:if=${submissions !=null}>
+        <div th:each="submission:${submissions}" class="mediaCard" style="display: flex;flex-direction: row;">
+
+            <div class="mediaContainer" th:switch="${submission.media.type}">
+                <img th:case="'image'" th:src="@{${submission.media.images[0]}}" style="max-width: 400px; width: 100%;">
+                <video th:case="'video'" th:src="@{${submission.media.images[0]}}"
+                    style="max-width: 400px; width: 100%;">
+            </div>
+            <div class="infoContainer">
+                <p th:text="${submission.media.type}"></p>
+                <h2 th:text="${submission.headline}"></h2>
+                <p th:text="${submission.description}"></p>
+                <p th:text="${submission.start}"></p>
+                <p th:text="${submission.end}"></p>
+                <p th:text="${submission.submitTime}"></p>
+            </div>
+            <div class="managementButtons">
+                <form action="#" th:action="@{'/adminPanel/accept/' + ${submission.id}}" method="post">
+                    <button class="Accept" onclick="">Approve</button>
+                </form>
+                <form action="#" th:action="@{'/adminPanel/deny/' + ${submission.id}}" method="post">
+                    <button class="Deny">Disapprove</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>

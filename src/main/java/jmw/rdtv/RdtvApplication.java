@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +20,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +43,7 @@ public class RdtvApplication {
 
     private static final String DELIMITER = "/";
     private static final String LOGGING_LOCATION = "src/main/resources";
+    private static final Set<String> ALLOWED_TYPES = Set.of("jpg", "png", "mp4", "gif", "webm", "mkv", "mov", "m4v", "avi");
     private static ArrayList<Submission> allSubmissions = null;
 //    private static final String DATA_JSON = "./data.json";
 
@@ -80,17 +83,26 @@ public class RdtvApplication {
      * indicator for success will be indicated
      *
      */
-    @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    public ModelAndView uploadSubmission(@ModelAttribute Submission submission, @RequestParam("file") MultipartFile file, Model model) {
+    public String uploadSubmission(@ModelAttribute Submission submission, @RequestParam("file") MultipartFile file, Model model) {
         // get file from model
         model.addAttribute("file", file);
         // get file type and extension
         String contentType = file.getContentType();
         if (contentType == null) {
             System.out.println("Content type null!!!");
-            return null;
+            return "empty Submission <div><a href='./upload'>Submit another</a></div>";
         }
         String fileExt = contentType.substring(contentType.lastIndexOf("/") + 1);
+        //mkv is converted into x - matroska
+        //may be some other unsupported formats
+        if (fileExt.equals("x-matroska")) {
+            fileExt = "mkv";
+        }
+        System.out.println(fileExt);
+        //check if file type allowed
+        if (!ALLOWED_TYPES.contains(fileExt)) {
+            return "Content type not supported <div><a href='./upload'>Submit another</a></div>";
+        }
         // add logging
         File mediaLog = new File(LOGGING_LOCATION + "/storage/media.bf");
         long lines = 0;
@@ -100,6 +112,7 @@ public class RdtvApplication {
             try (FileWriter logger = new FileWriter(mediaLog, true)) { // write to log file
                 logger.append(submission + DELIMITER + " " + lines + "." + fileExt + "\n");
             }
+            //check if file is allowed type
             File img = new File("./media/" + lines + "." + fileExt);
             //transforms from date and time to unix time
             //current method of getting time and date do not have seconds timestamps so they need to be added
@@ -110,7 +123,7 @@ public class RdtvApplication {
             submission.setApproved(false);
             submission.setId(lines);
             ImageBin temp = new ImageBin();
-            temp.setType(contentType.substring(0, contentType.lastIndexOf("/") - 1));
+            temp.setType(contentType.substring(0, contentType.lastIndexOf("/") + 0));
             temp.addImage(img.getPath());
             submission.setMedia(temp);
             //append to the arraylist (all)
@@ -131,7 +144,7 @@ public class RdtvApplication {
         // System.out.println(fileType);
         // System.out.println(image);
         // return uploadPage(model);
-        return generateMediaCard(submission, model, lines);
+        return "Success! <div><a href='./upload'>Submit another</a></div>";
     }
 
     /**
@@ -141,9 +154,18 @@ public class RdtvApplication {
      *
      * @return
      */
-    @RequestMapping(path = "/admin", method = RequestMethod.POST)
-    public boolean modifyThing() {
-        return true;
+    @RequestMapping(path = "/adminPanel/accept/{id}", method = RequestMethod.POST)
+    public String acceptSubmission(@PathVariable Long id) {
+        allSubmissions.get(Math.toIntExact(id)).setApproved(true);
+        Submission.writeSubmissionsFile(allSubmissions);
+        return "redirect:/adminPanel";
+    }
+
+    @RequestMapping(path = "/adminPanel/deny/{id}", method = RequestMethod.POST)
+    public String rejectSubmission(@PathVariable Long id) {
+        allSubmissions.get(Math.toIntExact(id)).setHidden(true);
+        Submission.writeSubmissionsFile(allSubmissions);
+        return "redirect:/adminPanel";
     }
 
     //
@@ -166,22 +188,10 @@ public class RdtvApplication {
      *
      * @return
      */
-    @RequestMapping(path = "/admin", method = RequestMethod.GET)
-
+    @RequestMapping(path = "/adminLogin", method = RequestMethod.GET)
     public ModelAndView adminPage() {
         ModelAndView ret = new ModelAndView();
-        ret.setViewName("adminPanel.html");
-        return ret;
-    }
-
-    /**
-     *
-     * @return
-     */
-    @RequestMapping(path = "/admin/media", method = RequestMethod.GET)
-    public ModelAndView adminMediaView() {
-        ModelAndView ret = new ModelAndView();
-        ret.setViewName("adminPanel.html");
+        ret.setViewName("adminLogin.html");
         return ret;
     }
 
@@ -191,12 +201,16 @@ public class RdtvApplication {
      * @param model
      * @return
      */
-    public ModelAndView generateMediaCard(Submission submission, Model model, Long id) {
+    @RequestMapping(path = "/adminPanel", method = RequestMethod.GET)
+    public ModelAndView adminPanel(Model model) {
         //make a new resource "submission" in the server that can the website can pass information into
-        model.addAttribute("submission", submission);
-        //used to find file
-        model.addAttribute("submissionId", id);
-        System.out.println(submission);
+        ArrayList<Submission> unapproved = new ArrayList<>();
+        for (Submission x : Submission.readSubmissionsFile()) {
+            if (!x.isApproved() && !x.isHidden()) {
+                unapproved.add(x);
+            }
+        }
+        model.addAttribute("submissions", unapproved);
         ModelAndView card = new ModelAndView("mediaCard.html");
         return card;
     }

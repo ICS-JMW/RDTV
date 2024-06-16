@@ -25,6 +25,7 @@ public class Submission {
     private String submitTime;      // when this was submitted
     private boolean approved;       // whether or not this has been approved
     private long id;                // submission number, only used for adminpanel
+    private boolean hidden = false; // whether to appear on adminpanel
 
     /**
      *
@@ -285,5 +286,29 @@ public class Submission {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public static ObjectMapper getMapper() {
+        return mapper;
+    }
+
+    public static void setMapper(ObjectMapper mapper) {
+        Submission.mapper = mapper;
+    }
+
+    public static String getDATA_LOC() {
+        return DATA_LOC;
+    }
+
+    public static void setDATA_LOC(String dATA_LOC) {
+        DATA_LOC = dATA_LOC;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 }
