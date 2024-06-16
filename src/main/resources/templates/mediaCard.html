@@ -5,9 +5,10 @@
         <div th:each="submission:${submissions}" class="mediaCard" style="display: flex;flex-direction: row;">
 
             <div class="mediaContainer" th:switch="${submission.media.type}">
-                <img th:case="'image'" th:src="@{${submission.media.images[0]}}" style="max-width: 400px; width: 100%;">
+                <img th:case="'image'" th:src="@{${submission.media.images[0]}}"
+                    style="max-width: 400px; width: 100%; max-height: 400px; height:100%;">
                 <video th:case="'video'" th:src="@{${submission.media.images[0]}}"
-                    style="max-width: 400px; width: 100%;">
+                    style="max-width: 400px; width: 100%; max-height: 400px; height: 100%;">
             </div>
             <div class="infoContainer">
                 <p th:text="${submission.media.type}"></p>
