@@ -1,6 +1,7 @@
 package jmw.rdtv.tvapp;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
 import jmw.rdtv.Model.ImageBin;
 import jmw.rdtv.Model.Submission;
@@ -54,9 +56,14 @@ public final class GUI extends javax.swing.JFrame {
     public GUI() {
         // netbeans setup components
         initComponents();
-        // remove window decorations
+        // remove window decorations and add icon
         dispose();
         setUndecorated(true);
+        try {
+            setIconImage(ImageIO.read(new File("./logos/rdtvlogo.png")));
+        } catch (IOException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         // set up vlcj
         add(vlcj);
         setVisible(true);
