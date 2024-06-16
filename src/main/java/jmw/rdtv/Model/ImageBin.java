@@ -1,7 +1,8 @@
 package jmw.rdtv.Model;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.*;
 
 /**
  *
@@ -18,5 +19,9 @@ public class ImageBin extends Media {
 
     public void setImages(ArrayList<String> images) {
         this.images = images;
+    }
+
+    public void addImage(String images) {
+        this.images.add(images);
     }
 }
