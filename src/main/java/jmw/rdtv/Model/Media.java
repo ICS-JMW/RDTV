@@ -41,4 +41,5 @@ public abstract class Media {
     public void setType(String type) {
         this.type = type;
     }
+
 }
