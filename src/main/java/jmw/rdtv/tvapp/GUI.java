@@ -90,12 +90,6 @@ public final class GUI extends javax.swing.JFrame {
         setVisible(true);
         vlcj.mediaPlayer().media().play("./b-roll.mp4"); // play mini-RD video
         vlcj.mediaPlayer().controls().setRepeat(true);
-        // set up xscreensaver
-        try {
-            Runtime.getRuntime().exec("xscreensaver &");
-        } catch (IOException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
         // set up overlays
         texts.setVisible(true);
         popup.setVisible(true);

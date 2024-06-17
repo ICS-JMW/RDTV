@@ -46,6 +46,8 @@ public class MediaPopup extends javax.swing.JFrame {
     public void setUpVlcj(String fileLocation) {
         remove(imageContainer);
         setSize(WIN_WIDTH, WIN_HEIGHT);
+        // fix video bug
+        vlcj = new EmbeddedMediaPlayerComponent();
         add(vlcj);
         vlcj.mediaPlayer().media().play(fileLocation);
         vlcj.mediaPlayer().controls().setRepeat(true);
