@@ -28,7 +28,7 @@ public final class GUI extends javax.swing.JFrame {
     /**
      *
      */
-    public static final int LINE_DELAY = 300; // how long to wait before displaying next subtitle line
+    public static final int LINE_DELAY = 3000; // how long to wait before displaying next subtitle line
 
     /**
      *
@@ -38,12 +38,12 @@ public final class GUI extends javax.swing.JFrame {
     /**
      *
      */
-    public static final int SCREENSAVER_CYCLES = 2; // cycle through 4 screensavers
+    public static final int SCREENSAVER_CYCLES = 4; // cycle through 4 screensavers
 
     /**
      *
      */
-    public static final int SCREENSAVER_DELAY = 5 * 1000; // 15 second delay
+    public static final int SCREENSAVER_DELAY = 15 * 1000; // 15 second delay
 
     // objects
     private final ArrayList<Submission> data = Submission.readSubmissionsFile(); // list of submissions
