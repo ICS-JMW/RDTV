@@ -6,14 +6,15 @@ By default submissions are put on hold until they are accepted.
 After they are accepted, they can be displayed.
 
 ---
-#Setting up
+# Setting up
 1. Install java jdk
 2. Download this repository (either through git clone or some other method)
-3. navigate to src\main\java\jmw\rdtv
-4. compile and run RdTvApplication.java
+3. Ideally load this repository with the Netbeans Spring plugin
+6. Compile and run spring application with Maven's `spring-boot run` goal
 ---
 # Bugs 
 1. If there are no submissions to be approved, /adminPanel displays error.
+2. The screensavers might not stop playing, still investigating error
 
 ---
 # Issues
