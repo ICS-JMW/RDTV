@@ -23,7 +23,7 @@ import javax.swing.JTextArea;
 
 /**
  *
- * @author hhwl
+ * @author William
  */
 public class TextsPanel extends javax.swing.JPanel {
 
@@ -58,18 +58,34 @@ public class TextsPanel extends javax.swing.JPanel {
         g.drawImage(csdLogo, 0, 100, 200, 200, this);
     }
 
+    /**
+     *
+     * @return
+     */
     public JLabel getHeadline() {
         return headline;
     }
 
+    /**
+     *
+     * @param headline
+     */
     public void setHeadline(JLabel headline) {
         this.headline = headline;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextArea getSubs() {
         return subs;
     }
 
+    /**
+     *
+     * @param subs
+     */
     public void setSubs(JTextArea subs) {
         this.subs = subs;
     }

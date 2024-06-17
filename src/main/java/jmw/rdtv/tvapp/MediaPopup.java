@@ -29,7 +29,7 @@ public class MediaPopup extends javax.swing.JFrame {
     private static final int WIN_HEIGHT = 480;
 
     /**
-     * Creates new form NewJFrame
+     * @author William
      */
     public MediaPopup() {
         initComponents();
@@ -39,6 +39,10 @@ public class MediaPopup extends javax.swing.JFrame {
         imageContainer.setBackground(Color.black);
     }
 
+    /**
+     * @author William
+     * @param fileLocation
+     */
     public void setUpVlcj(String fileLocation) {
         remove(imageContainer);
         add(vlcj);
@@ -48,6 +52,9 @@ public class MediaPopup extends javax.swing.JFrame {
         repaint();
     }
 
+    /**
+     * @author William
+     */
     public void setUpImages() {
         remove(vlcj);
         add(imageContainer, BorderLayout.CENTER);
@@ -55,6 +62,11 @@ public class MediaPopup extends javax.swing.JFrame {
         repaint();
     }
 
+    /**
+     * @author William
+     * @author Max
+     * @param fileLocation
+     */
     public void displayImage(String fileLocation) {
         try {
             Image image = ImageIO.read(new File(fileLocation));
@@ -79,18 +91,34 @@ public class MediaPopup extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public EmbeddedMediaPlayerComponent getVlcj() {
         return vlcj;
     }
 
+    /**
+     *
+     * @param vlcj
+     */
     public void setVlcj(EmbeddedMediaPlayerComponent vlcj) {
         this.vlcj = vlcj;
     }
 
+    /**
+     *
+     * @return
+     */
     public JLabel getImageContainer() {
         return imageContainer;
     }
 
+    /**
+     *
+     * @param imageContainer
+     */
     public void setImageContainer(JLabel imageContainer) {
         this.imageContainer = imageContainer;
     }

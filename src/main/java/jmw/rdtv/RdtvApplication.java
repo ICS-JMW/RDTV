@@ -34,7 +34,7 @@ import jmw.rdtv.Model.Submission;
 
 /**
  *
- * @author Jonathan, William
+ * @author Jonathan
  */
 @SpringBootApplication
 @EnableWebMvc
@@ -151,6 +151,7 @@ public class RdtvApplication {
      * Method allowing acceptance of posts.
      *
      * @author Jonathan
+     * @param id
      * @return
      */
     @RequestMapping(path = "/adminPanel/accept/{id}", method = RequestMethod.POST)
@@ -164,6 +165,7 @@ public class RdtvApplication {
      * Method allowing rejection of post
      *
      * @author Jonathan
+     * @param id
      * @return
      */
     @RequestMapping(path = "/adminPanel/deny/{id}", method = RequestMethod.POST)

@@ -10,11 +10,15 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author hhwl
+ * @author William
  */
 public class Submission {
 
     private static ObjectMapper mapper = new ObjectMapper();
+
+    /**
+     *
+     */
     public static String DATA_LOC = "./data.json";
 
     private String headline;        // event headline
@@ -71,7 +75,7 @@ public class Submission {
     }
 
     /**
-     *
+     * @author William
      * @return
      */
     public static ArrayList<Submission> readSubmissionsFile() {
@@ -90,7 +94,7 @@ public class Submission {
     }
 
     /**
-     *
+     * @author William
      * @param json
      * @return
      */
@@ -105,6 +109,10 @@ public class Submission {
         }
     }
 
+    /**
+     * @author William
+     * @param submissionsList
+     */
     public static void writeSubmissionsFile(ArrayList<Submission> submissionsList) {
         try {
             mapper.writeValue(new File(DATA_LOC), submissionsList);
@@ -280,34 +288,66 @@ public class Submission {
         return hash;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public static ObjectMapper getMapper() {
         return mapper;
     }
 
+    /**
+     *
+     * @param mapper
+     */
     public static void setMapper(ObjectMapper mapper) {
         Submission.mapper = mapper;
     }
 
+    /**
+     *
+     * @return
+     */
     public static String getDATA_LOC() {
         return DATA_LOC;
     }
 
+    /**
+     *
+     * @param dATA_LOC
+     */
     public static void setDATA_LOC(String dATA_LOC) {
         DATA_LOC = dATA_LOC;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isHidden() {
         return hidden;
     }
 
+    /**
+     *
+     * @param hidden
+     */
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
     }

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  *
- * @author hhwl
+ * @author William
  */
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -26,10 +26,18 @@ public abstract class Media {
      */
     public String type;
 
+    /**
+     *
+     * @return
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     *
+     * @param type
+     */
     public void setType(String type) {
         this.type = type;
     }

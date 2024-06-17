@@ -13,10 +13,9 @@ import jakarta.servlet.ServletRegistration;
 
 //my child will not copy code from the internet
 //child in question:
-
 /**
  *
- * @author hhwl
+ * @author Jonathan
  */
 public class MainWebAppInitializer implements WebApplicationInitializer {
 

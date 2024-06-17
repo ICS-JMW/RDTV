@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
- * @author hhwl
+ * @author William
  */
 public class Video extends Media {
 

@@ -25,9 +25,24 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 public final class GUI extends javax.swing.JFrame {
 
     // constants
+    /**
+     *
+     */
     public static final int LINE_DELAY = 3000; // how long to wait before displaying next subtitle line
+
+    /**
+     *
+     */
     public static final int LINE_LENGTH = 64; // each line of subtitles can have 64 characters
+
+    /**
+     *
+     */
     public static final int SCREENSAVER_CYCLES = 4; // cycle through 4 screensavers
+
+    /**
+     *
+     */
     public static final int SCREENSAVER_DELAY = 15 * 1000; // 15 second delay
 
     // objects
@@ -53,6 +68,12 @@ public final class GUI extends javax.swing.JFrame {
     int screensaverIndex = -1;
     int numDescBlocks = 0;
 
+    /**
+     * @author William
+     * @author Max
+     *
+     * sets up the gui
+     */
     public GUI() {
         // netbeans setup components
         initComponents();
@@ -100,6 +121,12 @@ public final class GUI extends javax.swing.JFrame {
         presentSubmission();
     }
 
+    /**
+     * @author William
+     * @author Max
+     *
+     * presents a submission
+     */
     public void presentSubmission() {
         submissionIndex++;
         if (submissionIndex >= data.size()) { // start screensaver if no submissions left
@@ -127,6 +154,12 @@ public final class GUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * @author Max
+     * @author William
+     *
+     * display a line
+     */
     public void lineHandle() {
         descBlock++;
         if (descBlock >= numDescBlocks) { // go to next submission if no more lines to show
@@ -147,6 +180,12 @@ public final class GUI extends javax.swing.JFrame {
         texts.getPanel().getSubs().setText(subDesc);
     }
 
+    /**
+     * @author William
+     * @author Max
+     *
+     * display images
+     */
     public void imageHandle() {
         imageIndex++;
         ImageBin images = (ImageBin) (data.get(submissionIndex).getMedia());
@@ -158,6 +197,11 @@ public final class GUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * @author William
+     *
+     * start screensaver
+     */
     public void startScreensaver() {
         try {
             // activates the screensaver
@@ -168,6 +212,11 @@ public final class GUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * @author William
+     *
+     * change and end the screensaver
+     */
     public void screensaverHandle() {
         screensaverIndex++;
         try {

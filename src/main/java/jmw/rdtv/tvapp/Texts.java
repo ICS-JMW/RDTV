@@ -12,7 +12,7 @@ import jmw.rdtv.Model.Submission;
 
 /**
  *
- * @author hhwl
+ * @author William
  */
 public class Texts extends javax.swing.JFrame {
 
@@ -50,10 +50,18 @@ public class Texts extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * @return
+     */
     public TextsPanel getPanel() {
         return panel;
     }
 
+    /**
+     *
+     * @param panel
+     */
     public void setPanel(TextsPanel panel) {
         this.panel = panel;
     }

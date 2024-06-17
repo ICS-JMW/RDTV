@@ -8,11 +8,17 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * @author Jonathan
+ *
  * exposes media folder to public so that images and videos can be displayed
  */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
+    /**
+     *
+     * @param registry
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         exposeDirectory("media", registry);
