@@ -34,7 +34,7 @@ import jmw.rdtv.Model.Submission;
 
 /**
  *
- * @author Johnathan, William
+ * @author Jonathan, William
  */
 @SpringBootApplication
 @EnableWebMvc
@@ -48,7 +48,7 @@ public class RdtvApplication {
 //    private static final String DATA_JSON = "./data.json";
 
     /**
-     *
+     * @author William
      * @param args
      */
     public static void main(String[] args) {
@@ -71,9 +71,9 @@ public class RdtvApplication {
 
     /**
      * Method for supporting "post" method of /upload creates new file with the
-     * name of the current number of lines in "Logs.bf". As of now, all formats
-     * can be uploaded, ranging from images to weird things things like
-     * executables.
+     * name of the current number of lines in "Logs.bf".
+     *
+     * @Author Jonathan
      *
      * @param submission contains information on the media. Passed by the
      * website (upload.html)
@@ -148,10 +148,9 @@ public class RdtvApplication {
     }
 
     /**
-     * Not implemented yet, will probably be multiple separate methods.
+     * Method allowing acceptance of posts.
      *
-     * ======= /**
-     *
+     * @author Jonathan
      * @return
      */
     @RequestMapping(path = "/adminPanel/accept/{id}", method = RequestMethod.POST)
@@ -161,6 +160,12 @@ public class RdtvApplication {
         return "redirect:/adminPanel";
     }
 
+    /**
+     * Method allowing rejection of post
+     *
+     * @author Jonathan
+     * @return
+     */
     @RequestMapping(path = "/adminPanel/deny/{id}", method = RequestMethod.POST)
     public String rejectSubmission(@PathVariable Long id) {
         allSubmissions.get(Math.toIntExact(id)).setHidden(true);
@@ -173,7 +178,9 @@ public class RdtvApplication {
     //
     //get function
     /**
+     * main page
      *
+     * @author jonathan
      * @return
      */
     @RequestMapping(path = "/", method = RequestMethod.GET)
@@ -183,8 +190,8 @@ public class RdtvApplication {
         return ret;
     }
 
-    //will probably be a login page
     /**
+     * unsupported method
      *
      * @return
      */
@@ -196,7 +203,10 @@ public class RdtvApplication {
     }
 
     /**
+     * place to review and accept/reject submissions. Logging in is not
+     * implemented so everyone can submit
      *
+     * @author Jonathan
      * @param submission
      * @param model
      * @return
@@ -216,7 +226,7 @@ public class RdtvApplication {
     }
 
     /**
-     *
+     * @author jonathan
      * @param model
      * @return
      */
