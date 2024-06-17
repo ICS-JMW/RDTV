@@ -11,11 +11,18 @@ After they are accepted, they can be displayed.
 2. Download this repository (either through git clone or some other method)
 3. Ideally load this repository with the Netbeans Spring plugin
 6. Compile and run spring application with Maven's `spring-boot run` goal
+7. For people to submit it, go on localhost:8080/
 ---
+# Websites
+1. (/) main page where information and rules about uploading files are displayed.
+2. (/upload) location where media and information about media can be sent to be reviewed.
+3. (/adminPanel) location where media is sent to be reviewed. Pressing Accept allows it to be displayed onto the screen. Pressing deny rejects it. No user validation is done, so anyone can use these methods.
+
+--- 
 # Bugs 
 1. If there are no submissions to be approved, /adminPanel displays error.
 2. The screensavers might not stop playing, still investigating error
-
+3. If media.bf (in src/main/resources/storage) and data.json are misaligned, then some issues with adminpanel. This hasn't been encountered during testing but did occur when manually messed with, issues do happen.
 ---
 # Issues
 1. There is no log in to admin so anyone can approve posts.
