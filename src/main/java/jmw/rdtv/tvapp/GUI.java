@@ -81,7 +81,7 @@ public final class GUI extends javax.swing.JFrame {
         dispose();
         setUndecorated(true);
         try {
-            setIconImage(ImageIO.read(new File("./logos/rdtvlogo.png")));
+            setIconImage(ImageIO.read(new File("./logos/rdtvLogo.png")));
         } catch (IOException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -103,7 +103,7 @@ public final class GUI extends javax.swing.JFrame {
         lineTimer.setRepeats(true);
         imageTimer.setRepeats(true);
         // validate submission inputs
-        SimpleDateFormat parser = new SimpleDateFormat("yyyy-mm-dd'T'HH:mm");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Date now = new Date();
         ArrayList<Submission> toRemove = new ArrayList<>();
         for (Submission e : data) {

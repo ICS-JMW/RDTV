@@ -35,7 +35,7 @@ public class Texts extends javax.swing.JFrame {
 
         panel = new jmw.rdtv.tvapp.TextsPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
         setLocation(new java.awt.Point(0, 780));
@@ -44,7 +44,6 @@ public class Texts extends javax.swing.JFrame {
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         panel.setMinimumSize(new java.awt.Dimension(1728, 300));
-        panel.setPreferredSize(new java.awt.Dimension(1728, 300));
         getContentPane().add(panel);
 
         pack();
