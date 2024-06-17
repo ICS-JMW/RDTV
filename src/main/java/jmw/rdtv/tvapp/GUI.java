@@ -87,7 +87,8 @@ public final class GUI extends javax.swing.JFrame {
         ArrayList<Submission> toRemove = new ArrayList<>();
         for (Submission e : data) {
             try {
-                if (parser.parse(e.getStart()).after(now) || !e.isApproved()) {
+                // make sure the current date is within range
+                if (parser.parse(e.getStart()).after(now) || parser.parse(e.getEnd()).before(now) || !e.isApproved()) {
                     toRemove.add(e);
                 }
             } catch (ParseException ex) {
