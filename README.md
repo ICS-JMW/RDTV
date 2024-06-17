@@ -10,8 +10,10 @@ After they are accepted, they can be displayed.
 1. Install java jdk
 2. Download this repository (either through git clone or some other method)
 3. Ideally load this repository with the Netbeans Spring plugin
+4. Install `xscreensaver` and start it in the background
 6. Compile and run spring application with Maven's `spring-boot run` goal
-7. For people to submit it, go on localhost:8080/
+7. `Alt-f4` the gui windows if you do not need it
+8. For people to submit it, go on localhost:8080/
 ---
 # Websites
 1. (/) main page where information and rules about uploading files are displayed.
